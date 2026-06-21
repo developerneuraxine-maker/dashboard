@@ -26,7 +26,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { productivityScore, formatHours } from "@/lib/productivity";
+import { productivityScore, formatHours, formatHoursWithSeconds } from "@/lib/productivity";
 
 /* ------------------------------------------------------------------ */
 /*  Small UI primitives                                               */
@@ -204,6 +204,10 @@ interface DashboardClientProps {
     hoursCompliance: number;
     avgHours: number;
   };
+  seriesWeekly: Array<{
+    week: string;
+    score: number;
+  }>;
 }
 
 export default function DashboardClient({
@@ -211,6 +215,7 @@ export default function DashboardClient({
   tasks,
   attendanceHistory,
   metrics,
+  seriesWeekly,
 }: DashboardClientProps) {
   const { t } = useTheme();
   const router = useRouter();
@@ -329,14 +334,7 @@ export default function DashboardClient({
     metrics.hoursCompliance
   );
 
-  const seriesWeekly = [
-    { week: "W1", score: Math.round(score * 0.9) },
-    { week: "W2", score: Math.round(score * 0.95) },
-    { week: "W3", score: Math.round(score * 0.92) },
-    { week: "W4", score: Math.round(score * 0.97) },
-    { week: "W5", score: Math.round(score * 1.02 > 100 ? 100 : score * 1.02) },
-    { week: "W6", score: score },
-  ];
+
 
   const formattedClockIn = clockIn
     ? clockIn.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
@@ -359,7 +357,7 @@ export default function DashboardClient({
               ? "Clock in now to start tracking your working hours and tasks." 
               : clockOut 
               ? `Great job today! Total hours logged: ${formatHours(clockRecord?.totalHours || 0)}` 
-              : `Work session running. Live timer: ${formatHours(liveHours)}`}
+              : `Work session running. Live timer: ${formatHoursWithSeconds(liveHours)}`}
           </p>
         </div>
         <div className="flex items-center gap-3 z-10">
@@ -391,7 +389,7 @@ export default function DashboardClient({
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard t={t} icon={Play} label="Clocked in" value={formattedClockIn} accent={t.success} />
         <StatCard t={t} icon={Square} label="Clocked out" value={formattedClockOut} accent={t.danger} />
-        <StatCard t={t} icon={Timer} label="Hours today" value={formatHours(liveHours)} accent={t.brand} />
+        <StatCard t={t} icon={Timer} label="Hours today" value={formatHoursWithSeconds(liveHours)} accent={t.brand} />
         <StatCard t={t} icon={Target} label="Productivity" value={`${score}%`} accent={t.info} delta={4} />
       </div>
 

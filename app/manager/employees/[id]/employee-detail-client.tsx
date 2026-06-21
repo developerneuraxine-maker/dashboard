@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/lib/ThemeContext";
 import {
@@ -267,6 +267,55 @@ export default function EmployeeDetailClient({
   const { t } = useTheme();
   const router = useRouter();
 
+  // Task assignment states
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDesc, setTaskDesc] = useState("");
+  const [taskProj, setTaskProj] = useState("");
+  const [taskClient, setTaskClient] = useState("");
+  const [taskPriority, setTaskPriority] = useState("MEDIUM");
+  const [taskEst, setTaskEst] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleAssignTask = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!taskTitle.trim()) return;
+    setLoading(true);
+    setMsg(null);
+    try {
+      const res = await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: employee.id,
+          title: taskTitle,
+          description: taskDesc || null,
+          projectName: taskProj || null,
+          clientName: taskClient || null,
+          priority: taskPriority,
+          estimatedTime: taskEst ? parseFloat(taskEst) : null,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMsg({ type: "success", text: "Task assigned successfully!" });
+        setTaskTitle("");
+        setTaskDesc("");
+        setTaskProj("");
+        setTaskClient("");
+        setTaskPriority("MEDIUM");
+        setTaskEst("");
+        router.refresh();
+      } else {
+        setMsg({ type: "error", text: data.error || "Failed to assign task." });
+      }
+    } catch (err) {
+      setMsg({ type: "error", text: "Something went wrong." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const breakdown = [
     { name: "Completed", value: employee.tasksCompleted, color: t.success },
     { name: "In progress", value: Math.max(1, Math.round(employee.tasksPending * 0.4)), color: t.info },
@@ -315,6 +364,112 @@ export default function EmployeeDetailClient({
         </div>
         <TaskDonut t={t} breakdown={breakdown} title="Task analytics" sub="Current workload" />
       </div>
+
+      <Card t={t} className="p-5">
+        <SectionTitle t={t} sub="Assign a new task to this employee">Assign Task</SectionTitle>
+        <form onSubmit={handleAssignTask} className="mt-4 space-y-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Task Title *</label>
+              <input
+                type="text"
+                required
+                value={taskTitle}
+                onChange={(e) => setTaskTitle(e.target.value)}
+                placeholder="e.g. Implement API route"
+                className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Project Name</label>
+              <input
+                type="text"
+                value={taskProj}
+                onChange={(e) => setTaskProj(e.target.value)}
+                placeholder="e.g. WorkTrack Pro"
+                className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div>
+              <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Client Name</label>
+              <input
+                type="text"
+                value={taskClient}
+                onChange={(e) => setTaskClient(e.target.value)}
+                placeholder="e.g. Acme Corp"
+                className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Priority</label>
+              <select
+                value={taskPriority}
+                onChange={(e) => setTaskPriority(e.target.value)}
+                className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              >
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="CRITICAL">Critical</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Estimated Time (Hours)</label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                value={taskEst}
+                onChange={(e) => setTaskEst(e.target.value)}
+                placeholder="e.g. 4.5"
+                className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold block mb-1" style={{ color: t.textMuted }}>Description</label>
+            <textarea
+              rows={2}
+              value={taskDesc}
+              onChange={(e) => setTaskDesc(e.target.value)}
+              placeholder="Provide a detailed description of the task..."
+              className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition resize-none"
+              style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+            />
+          </div>
+
+          {msg && (
+            <div
+              className="text-xs font-medium px-4 py-2 rounded-xl"
+              style={{
+                background: msg.type === "success" ? t.successSoft : t.dangerSoft,
+                color: msg.type === "success" ? t.success : t.danger,
+              }}
+            >
+              {msg.text}
+            </div>
+          )}
+
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={loading || !taskTitle.trim()}
+              className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] hover:brightness-110 active:scale-95 transition disabled:opacity-40"
+            >
+              {loading ? "Assigning..." : "Assign Task"}
+            </button>
+          </div>
+        </form>
+      </Card>
 
       <Heatmap t={t} title="Activity heatmap" sub="Hours logged · last 12 weeks" />
 

@@ -26,18 +26,28 @@ export async function POST(req: Request) {
   if (!body?.title?.trim())
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
 
+  const isManagerOrAdmin = session.user.role === "MANAGER" || session.user.role === "ADMIN";
+  let targetUserId = session.user.id;
+
+  if (body?.userId) {
+    if (!isManagerOrAdmin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    targetUserId = body.userId;
+  }
+
   const { data: task, error } = await supabase
     .from("Task")
     .insert({
       id: crypto.randomUUID(),
-      userId: session.user.id,
+      userId: targetUserId,
       title: body.title,
       description: body.description ?? null,
       projectName: body.projectName ?? null,
       clientName: body.clientName ?? null,
       priority: body.priority ?? "MEDIUM",
       estimatedTime: body.estimatedTime ?? null,
-      actualTime: 0,
+      actualTime: body.actualTime ?? 0,
       status: body.status ?? "PENDING",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -68,8 +78,13 @@ export async function PATCH(req: Request) {
     .eq("id", body.id)
     .maybeSingle();
 
-  if (!existing || existing.userId !== session.user.id) {
+  if (!existing) {
     return NextResponse.json({ error: "Task not found" }, { status: 404 });
+  }
+
+  const isManagerOrAdmin = session.user.role === "MANAGER" || session.user.role === "ADMIN";
+  if (existing.userId !== session.user.id && !isManagerOrAdmin) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const { data: updated, error } = await supabase

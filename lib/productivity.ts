@@ -24,6 +24,16 @@ export function formatHours(decimal: number): string {
   return `${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;
 }
 
+/** "09h 35m 12s" from decimal hours. */
+export function formatHoursWithSeconds(decimal: number): string {
+  if (decimal <= 0) return "00h 00m 00s";
+  const totalSeconds = Math.round(decimal * 3600);
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`;
+}
+
 /** True if clock-in is after the company start time (e.g. "09:30"). */
 export function isLate(clockIn: Date, companyStart = "09:30"): boolean {
   const [h, m] = companyStart.split(":").map(Number);

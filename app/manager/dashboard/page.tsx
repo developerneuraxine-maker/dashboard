@@ -116,6 +116,31 @@ export default async function ManagerDashboardPage() {
       : 0;
   const lateCount = employeesStats.filter((e) => e.late).length;
 
+  // Generate team working hours trend for the last 10 days
+  const last10Days: string[] = [];
+  for (let i = 9; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    last10Days.push(getLocalDateString(d));
+  }
+
+  const seriesDailyHours = last10Days.map((dateStr) => {
+    let totalHoursForDay = 0;
+    dbEmployees.forEach((emp) => {
+      const rec = emp.attendance.find((a: any) => a.date === dateStr);
+      if (rec) {
+        totalHoursForDay += rec.totalHours || 0;
+      }
+    });
+    const avg = totalEmployees > 0 ? Math.round((totalHoursForDay / totalEmployees) * 10) / 10 : 0;
+    const dateObj = new Date(dateStr);
+    const dayLabel = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return {
+      day: dayLabel,
+      hours: avg,
+    };
+  });
+
   return (
     <ManagerDashboardClient
       employees={employeesStats}
@@ -129,6 +154,7 @@ export default async function ManagerDashboardPage() {
         avgScore: avgTeamScore,
         late: lateCount,
       }}
+      seriesDailyHours={seriesDailyHours}
     />
   );
 }

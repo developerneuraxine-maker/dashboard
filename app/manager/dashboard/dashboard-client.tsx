@@ -242,9 +242,17 @@ interface ManagerDashboardClientProps {
     avgScore: number;
     late: number;
   };
+  seriesDailyHours: Array<{
+    day: string;
+    hours: number;
+  }>;
 }
 
-export default function ManagerDashboardClient({ employees, agg }: ManagerDashboardClientProps) {
+export default function ManagerDashboardClient({
+  employees,
+  agg,
+  seriesDailyHours,
+}: ManagerDashboardClientProps) {
   const { t } = useTheme();
   const router = useRouter();
 
@@ -269,20 +277,6 @@ export default function ManagerDashboardClient({ employees, agg }: ManagerDashbo
       score: Math.round(arr.reduce((a, b) => a + b, 0) / arr.length),
     }));
   }, [employees]);
-
-  // Aggregate standard daily hours across employees for trend
-  const seriesDailyHours = [
-    { day: "Mon", hours: 7.8 },
-    { day: "Tue", hours: 8.2 },
-    { day: "Wed", hours: 7.4 },
-    { day: "Thu", hours: 8.6 },
-    { day: "Fri", hours: 7.1 },
-    { day: "Mon ", hours: 8.0 },
-    { day: "Tue ", hours: 7.9 },
-    { day: "Wed ", hours: 8.4 },
-    { day: "Thu ", hours: 6.8 },
-    { day: "Fri ", hours: 7.6 },
-  ];
 
   const cards = [
     [UsersIcon, "Total employees", agg.total, t.brand],
