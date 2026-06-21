@@ -36,10 +36,19 @@ export function formatHoursWithSeconds(decimal: number): string {
 
 /** True if clock-in is after the company start time (e.g. "09:30"). */
 export function isLate(clockIn: Date, companyStart = "09:30"): boolean {
-  const [h, m] = companyStart.split(":").map(Number);
-  const cutoff = new Date(clockIn);
-  cutoff.setHours(h, m, 0, 0);
-  return clockIn.getTime() > cutoff.getTime();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Kolkata",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+  const formatted = formatter.format(clockIn);
+  const [inH, inM] = formatted.split(":").map(Number);
+  const [startH, startM] = companyStart.split(":").map(Number);
+
+  if (inH > startH) return true;
+  if (inH === startH && inM > startM) return true;
+  return false;
 }
 
 /** Task completion rate (0–100) from a status tally. */

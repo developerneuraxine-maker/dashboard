@@ -7,10 +7,13 @@ import { productivityScore } from "@/lib/productivity";
 export const dynamic = "force-dynamic";
 
 const getLocalDateString = (d = new Date()) => {
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+  const formatter = new Intl.DateTimeFormat("en-ZA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return formatter.format(d).replace(/\//g, "-");
 };
 
 export default async function ManagerDashboardPage() {
@@ -36,13 +39,13 @@ export default async function ManagerDashboardPage() {
     `)
     .eq("role", "EMPLOYEE");
 
-  const dbEmployees = (dbEmployeesData || []).map(emp => {
+  const dbEmployees = (dbEmployeesData || []).map((emp: any) => {
     const attendance = (emp.attendance || []).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     const tasks = emp.tasks || [];
     return { ...emp, attendance, tasks };
   });
 
-  const employeesStats = dbEmployees.map((emp) => {
+  const employeesStats = dbEmployees.map((emp: any) => {
     const todayRecord = emp.attendance.find(
       (a: any) => a.date === todayStr
     );
@@ -110,16 +113,16 @@ export default async function ManagerDashboardPage() {
 
   // Aggregated totals
   const totalEmployees = employeesStats.length;
-  const presentCount = employeesStats.filter((e) => e.status === "Working" || e.clockIn).length;
+  const presentCount = employeesStats.filter((e: any) => e.status === "Working" || e.clockIn).length;
   const absentCount = totalEmployees - presentCount;
-  const onlineCount = employeesStats.filter((e) => e.status === "Working").length;
+  const onlineCount = employeesStats.filter((e: any) => e.status === "Working").length;
   const totalTasksCompleted = employeesStats.reduce((sum: number, e: any) => sum + e.tasksCompleted, 0);
   const totalTasksPending = employeesStats.reduce((sum: number, e: any) => sum + e.tasksPending, 0);
   const avgTeamScore =
     totalEmployees > 0
       ? Math.round(employeesStats.reduce((sum: number, e: any) => sum + e.score, 0) / totalEmployees)
       : 0;
-  const lateCount = employeesStats.filter((e) => e.late).length;
+  const lateCount = employeesStats.filter((e: any) => e.late).length;
 
   // Generate team working hours trend for the last 10 days
   const last10Days: string[] = [];
@@ -131,7 +134,7 @@ export default async function ManagerDashboardPage() {
 
   const seriesDailyHours = last10Days.map((dateStr) => {
     let totalHoursForDay = 0;
-    dbEmployees.forEach((emp) => {
+    dbEmployees.forEach((emp: any) => {
       const rec = emp.attendance.find((a: any) => a.date === dateStr);
       if (rec) {
         totalHoursForDay += rec.totalHours || 0;

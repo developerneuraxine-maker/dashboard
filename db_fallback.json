@@ -1,0 +1,1372 @@
+{
+  "User": [
+    {
+      "id": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "name": "Riya Singh",
+      "email": "manager@worktrack.io",
+      "password": "$2a$10$PehiMFMuBLBI7vQIgL92EOqsvFs/sWSfSIyE8sBDLlqHLl7SyrsJ6",
+      "role": "MANAGER",
+      "department": "Engineering",
+      "designation": "Engineering Manager",
+      "createdAt": "2026-06-21T08:22:58.200Z"
+    },
+    {
+      "id": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "name": "Hardik Sedani",
+      "email": "hardiksedani95@gmail.com",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Engineering",
+      "designation": "Software Engineer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.204Z"
+    },
+    {
+      "id": "51ba03b3-413b-438e-891d-1610c23da643",
+      "name": "Aarav Sharma",
+      "email": "aarav.sharma@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Engineering",
+      "designation": "Senior Frontend Engineer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.325Z"
+    },
+    {
+      "id": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "name": "Diya Patel",
+      "email": "diya.patel@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Design",
+      "designation": "Product Designer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.339Z"
+    },
+    {
+      "id": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "name": "Kabir Mehta",
+      "email": "kabir.mehta@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Engineering",
+      "designation": "Backend Engineer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.353Z"
+    },
+    {
+      "id": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "name": "Ananya Reddy",
+      "email": "ananya.reddy@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Sales",
+      "designation": "Account Executive",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.367Z"
+    },
+    {
+      "id": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "name": "Vivaan Iyer",
+      "email": "vivaan.iyer@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Marketing",
+      "designation": "Growth Marketer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.381Z"
+    },
+    {
+      "id": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "name": "Ishaan Nair",
+      "email": "ishaan.nair@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Support",
+      "designation": "Support Lead",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.394Z"
+    },
+    {
+      "id": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "name": "Reyansh Khanna",
+      "email": "reyansh.khanna@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Engineering",
+      "designation": "DevOps Engineer",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.408Z"
+    },
+    {
+      "id": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "name": "Saanvi Joshi",
+      "email": "saanvi.joshi@worktrack.io",
+      "password": "$2a$10$dgdICbbMhS/hCi6.YrwwgOsw6UhgImTRbYH.yoqEHxNFlb3U4Jgi.",
+      "role": "EMPLOYEE",
+      "department": "Sales",
+      "designation": "Sales Development Rep",
+      "managerId": "f39448c4-8283-467a-87d7-456c1b923fc7",
+      "createdAt": "2026-06-21T08:22:58.423Z"
+    }
+  ],
+  "Attendance": [
+    {
+      "id": "5417ff99-77d6-46c3-a337-2154eee15b1f",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "15f9ddf1-8344-470e-b1e4-c85114cf4c6c",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "f77f1a3c-04b2-4c7d-a650-827e18e20cd2",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "c258a0c4-4b23-4b6d-9d70-e507288d2f61",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "798f8974-b982-4a1e-a4db-4878158eaf02",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "056e853e-184e-4d7d-9883-e7759b666c58",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "82c821ad-6e99-4b96-aa98-766bba5019c1",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ab3becff-5963-4d54-b467-2d818eb6edd9",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "5d98c438-3ea2-4a02-8913-2b3556545d00",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "2351ea72-2871-4e74-9dcd-61f68ca1e98d",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "9113c9b4-b3d7-494d-b78b-61c4e7c92d88",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "beb5bf37-09a6-44a6-9e86-073bdece8d17",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "b58bc504-d72b-4202-b91a-33a8405a767e",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "684b1745-12d8-4e36-ac8d-4694073fa9b6",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "480a7d05-9f3f-4595-9d98-42114b6cbe4c",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "1ce4b56c-e0f8-4bf8-b239-e9db07eba8e0",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "8c4644dc-7068-4a71-8b93-e4866155f291",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "cdfcde6f-5af2-496d-bd72-4a181853a4d9",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "6de0de24-13c5-4c7d-aab7-aeec3a27810b",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ae8dcb97-b140-4b45-8a71-c4a20642e5eb",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "dcd06f4d-16f5-4856-9aeb-9d6c54b9d42b",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "1e22c976-a307-4d04-8b97-1cf999957e92",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "b26c9c36-7d51-4aa5-a2a1-b0046c7e168e",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "29873d9d-a94d-44b4-8933-d519ea31c5b8",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "c639b7b7-c739-42dc-9c51-ed1bb0fd360e",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "1989585a-e4ac-41a4-bcac-1cd33a702932",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "aec246e9-403f-46da-8aa1-dd029157fc1a",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "cd0749b4-f931-4ce0-b492-9cd95c7f91bd",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "06aac019-b6a8-4fb4-a174-fe84390654e4",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "9956098c-e444-4927-b635-0104805cba9c",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "95f1471c-1543-4925-906d-c53c8a3c2ffe",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "fe405fe9-87be-44a4-b902-f6fa60a5cd1a",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "6e5647d7-42f7-4508-9521-7061bafef5e1",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "259c6186-23e0-4a18-849e-ec5645a22f82",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "0023a637-ede9-4e3d-aa3a-ed2bddf857e1",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "53742315-d133-46f3-a2f8-62caa15acd15",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "b712a1d4-bb55-4a48-8e41-b2714e281618",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "5c23ceca-74dc-41de-842b-1b828b3a6157",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "344279e5-41f1-4dfa-a2f8-3685fdc95af0",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "647508fd-49a4-442e-8ea8-5ea165ee4644",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "dcb4f258-e41c-4ffe-a26d-64a1461f732c",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "8bd6fc28-c506-4dbd-b1b9-1dc620b02505",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "28ae1d8f-f184-45cf-9ef0-a09c6b2df012",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "71f6c41b-ecc7-4f8d-90d5-aa5b0c7fda0d",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "01a2aff7-9c05-43ba-8f95-be8fce0adbf9",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "eb3acc98-5d2f-453f-ac41-5ad45d573e1b",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "1939f000-538b-4aa1-b5c9-4927f32260f7",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "e96f0b78-d56d-40cc-880c-288ea991aeb5",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "754568ce-a6ad-4011-a2f7-c0cb3c30ffde",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "9f02a1a2-f42b-4c54-87b2-4e1b7f52dbd6",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "38ed6706-c80b-4118-b5bd-b7c802756b00",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "597aee9d-6ac5-413b-b79d-f57d24d4e49a",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "711d65fc-a229-4cbe-ac28-078bd53be61e",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "41f3aeb5-5059-4159-a155-0fc4a68ab9db",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "36e535e5-d03d-489e-a433-d348c68a7ea1",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "0a122d19-8d84-4567-ac5d-5f9f61a70ace",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "616eebf1-aad6-4508-99ad-0d1a635f1fb2",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "49b81bab-9de5-4753-8b11-bb6983308fb9",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ab408dbf-d517-4776-b8d5-04b412f5be70",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "75da0d43-cfa6-46d8-b9c7-60725fea9f37",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "54b2adbb-a4f0-45dc-8d93-33de4ff35bc7",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "379df091-2e50-4e48-bb23-c57dd253d123",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "914789de-a89c-4ea9-8378-0acb90d7fcba",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "c49e3ddd-9d16-41a7-a3b3-585270dbbf83",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "72b1107d-9edf-4266-a8be-b4d6077f4143",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "7f7209e4-eb92-4651-9561-30e94b03e30d",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "66fbf5a0-be95-4317-bd07-3d002224fe88",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "3bcb4abf-fe77-4195-b804-a3f8ee66fd4c",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "d88558a7-546d-45b6-945b-dcb1ada0be04",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ee0708a6-dd96-4ec5-8923-2792e533ccad",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "f17f3b80-9f14-4cc2-861e-e2fa2bff49b6",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "a61649fb-e2af-4351-9470-8a8b12b408b8",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "50996d0b-6d84-46fd-8d54-ade3f2ec7c3b",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "e97b7c20-47d0-42a4-9f16-618d20b1acc7",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ea333c3d-1db5-406f-a014-7c4e497f97ee",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ee5a7b3a-1bcf-4ae4-99e7-4a626054e28d",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "db27ffb2-97aa-45d2-936b-e09cd4f4ae48",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "abb77fe8-4b08-48ba-8f6a-cc51880cb94a",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "4310758f-9624-4f7d-b92e-f145fadf5640",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "a12306bf-515c-457e-8545-f0d686fd7840",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    },
+    {
+      "id": "17aa3f48-f1a6-4336-b39b-daed45093657",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-21",
+      "clockIn": "2026-06-21T03:35:00.000Z",
+      "clockOut": null,
+      "totalHours": 0,
+      "status": "PRESENT"
+    },
+    {
+      "id": "ce2623a0-46bc-4c18-bb18-2ea444a313e1",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-20",
+      "clockIn": "2026-06-20T03:38:00.000Z",
+      "clockOut": "2026-06-20T13:05:00.000Z",
+      "totalHours": 9.45,
+      "status": "PRESENT"
+    },
+    {
+      "id": "0c2dda47-aa65-4183-928c-dc9ac6d87077",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-19",
+      "clockIn": "2026-06-19T03:41:00.000Z",
+      "clockOut": "2026-06-19T13:10:00.000Z",
+      "totalHours": 9.48,
+      "status": "PRESENT"
+    },
+    {
+      "id": "a0a0108e-15a1-4c55-be5c-2a654b56f90a",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-18",
+      "clockIn": "2026-06-18T03:44:00.000Z",
+      "clockOut": "2026-06-18T13:15:00.000Z",
+      "totalHours": 9.52,
+      "status": "PRESENT"
+    },
+    {
+      "id": "9b79f7e7-8310-44f0-87a8-90646a07fd54",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-17",
+      "clockIn": "2026-06-17T03:47:00.000Z",
+      "clockOut": "2026-06-17T13:00:00.000Z",
+      "totalHours": 9.22,
+      "status": "PRESENT"
+    },
+    {
+      "id": "5b80b3b5-d903-4fb2-8a2c-52f0551f8b28",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-16",
+      "clockIn": "2026-06-16T03:50:00.000Z",
+      "clockOut": "2026-06-16T13:05:00.000Z",
+      "totalHours": 9.25,
+      "status": "PRESENT"
+    },
+    {
+      "id": "65ba0d5f-5e12-455e-b460-cf3c4cf45a65",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-15",
+      "clockIn": "2026-06-15T03:35:00.000Z",
+      "clockOut": "2026-06-15T13:10:00.000Z",
+      "totalHours": 9.58,
+      "status": "PRESENT"
+    },
+    {
+      "id": "be26f5c4-cf2c-4ddc-a8f6-8234002c8935",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-14",
+      "clockIn": "2026-06-14T03:38:00.000Z",
+      "clockOut": "2026-06-14T13:15:00.000Z",
+      "totalHours": 9.62,
+      "status": "PRESENT"
+    },
+    {
+      "id": "949f6f45-75cf-4d82-b165-0e513deaf10b",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-13",
+      "clockIn": "2026-06-13T03:41:00.000Z",
+      "clockOut": "2026-06-13T13:00:00.000Z",
+      "totalHours": 9.32,
+      "status": "PRESENT"
+    },
+    {
+      "id": "86138338-b15a-4f78-8705-51ad883bddf5",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-12",
+      "clockIn": "2026-06-12T03:44:00.000Z",
+      "clockOut": "2026-06-12T13:05:00.000Z",
+      "totalHours": 9.35,
+      "status": "PRESENT"
+    }
+  ],
+  "Task": [
+    {
+      "id": "8b1c0b84-2008-46a0-8e59-f5c8824b4887",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.320Z",
+      "updatedAt": "2026-06-21T08:22:58.320Z"
+    },
+    {
+      "id": "99d2b4dc-232c-4d4e-b10d-da1b33433124",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.320Z",
+      "updatedAt": "2026-06-21T08:22:58.320Z"
+    },
+    {
+      "id": "842ec7ae-7520-4f79-b3b7-c41d31137644",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.320Z",
+      "updatedAt": "2026-06-21T08:22:58.320Z"
+    },
+    {
+      "id": "170416c9-c161-4e3a-b52b-b3b8c9320e66",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.333Z",
+      "updatedAt": "2026-06-21T08:22:58.333Z"
+    },
+    {
+      "id": "aa492691-3242-414e-8f50-02f6c627fbd1",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.333Z",
+      "updatedAt": "2026-06-21T08:22:58.333Z"
+    },
+    {
+      "id": "618599ca-174e-4b84-b539-ae1c1ca97387",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.333Z",
+      "updatedAt": "2026-06-21T08:22:58.333Z"
+    },
+    {
+      "id": "7ef03691-94ee-4b86-9bbd-e342cf00cee6",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.347Z",
+      "updatedAt": "2026-06-21T08:22:58.347Z"
+    },
+    {
+      "id": "75f95274-614e-4f1b-b751-cbdf8ac7312c",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.347Z",
+      "updatedAt": "2026-06-21T08:22:58.347Z"
+    },
+    {
+      "id": "efea6a68-7425-4890-a9cf-ff98879921c4",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.347Z",
+      "updatedAt": "2026-06-21T08:22:58.347Z"
+    },
+    {
+      "id": "af96e891-2bd0-4b2c-9973-c0531137b83e",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.361Z",
+      "updatedAt": "2026-06-21T08:22:58.361Z"
+    },
+    {
+      "id": "ed056fd5-6b7c-495e-aff1-5ae328e3febf",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.361Z",
+      "updatedAt": "2026-06-21T08:22:58.361Z"
+    },
+    {
+      "id": "1f609f48-a4cb-476b-84f5-42ef3684ebf4",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.361Z",
+      "updatedAt": "2026-06-21T08:22:58.361Z"
+    },
+    {
+      "id": "09747e0d-6bec-44ab-a644-3f2d892d32e6",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.375Z",
+      "updatedAt": "2026-06-21T08:22:58.375Z"
+    },
+    {
+      "id": "63a80771-aeee-41aa-9332-f75a213db06f",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.375Z",
+      "updatedAt": "2026-06-21T08:22:58.375Z"
+    },
+    {
+      "id": "25ef787e-b111-4f4b-a8de-b4473f6a5d39",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.375Z",
+      "updatedAt": "2026-06-21T08:22:58.375Z"
+    },
+    {
+      "id": "1f159de3-436c-40d5-9361-736c1684d967",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.389Z",
+      "updatedAt": "2026-06-21T08:22:58.389Z"
+    },
+    {
+      "id": "aadf502c-c2e6-4a0b-b965-9e20fb32bd54",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.389Z",
+      "updatedAt": "2026-06-21T08:22:58.389Z"
+    },
+    {
+      "id": "7976f903-e2d3-4b0b-92ee-f3c6bd4e4e53",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.389Z",
+      "updatedAt": "2026-06-21T08:22:58.389Z"
+    },
+    {
+      "id": "391c664e-cd32-41e8-98f1-e11237b07eb7",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.402Z",
+      "updatedAt": "2026-06-21T08:22:58.402Z"
+    },
+    {
+      "id": "221fde0c-c18f-4082-9f3e-32abcf097f2f",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.402Z",
+      "updatedAt": "2026-06-21T08:22:58.402Z"
+    },
+    {
+      "id": "32bf929c-a81e-407a-b0cf-07ba6cb220f2",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.402Z",
+      "updatedAt": "2026-06-21T08:22:58.402Z"
+    },
+    {
+      "id": "f45551e8-f037-47f5-80fa-68b54d75369d",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.417Z",
+      "updatedAt": "2026-06-21T08:22:58.418Z"
+    },
+    {
+      "id": "588a79e1-0fbd-4f2b-9039-2daf6b37e7e5",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.418Z",
+      "updatedAt": "2026-06-21T08:22:58.418Z"
+    },
+    {
+      "id": "1f1f848b-dfd3-49bb-87cc-6460dd081d2c",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.418Z",
+      "updatedAt": "2026-06-21T08:22:58.418Z"
+    },
+    {
+      "id": "f7cc3066-8ad8-4cf2-8645-71b2665a708d",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "title": "Sprint planning prep",
+      "projectName": "WorkTrack Web",
+      "clientName": "Internal",
+      "priority": "MEDIUM",
+      "estimatedTime": 2,
+      "actualTime": 1.5,
+      "status": "COMPLETED",
+      "createdAt": "2026-06-21T08:22:58.432Z",
+      "updatedAt": "2026-06-21T08:22:58.432Z"
+    },
+    {
+      "id": "780b0c26-f793-4f0e-b900-b88da108b09e",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "title": "Implement feature module",
+      "projectName": "WorkTrack Web",
+      "clientName": "Acme Corp",
+      "priority": "HIGH",
+      "estimatedTime": 5,
+      "actualTime": 3,
+      "status": "IN_PROGRESS",
+      "createdAt": "2026-06-21T08:22:58.432Z",
+      "updatedAt": "2026-06-21T08:22:58.432Z"
+    },
+    {
+      "id": "9578a8c9-89a9-4edb-b005-49ac0185cefc",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "title": "Code review backlog",
+      "projectName": "Platform",
+      "clientName": "Internal",
+      "priority": "LOW",
+      "estimatedTime": 1,
+      "actualTime": 0,
+      "status": "PENDING",
+      "createdAt": "2026-06-21T08:22:58.432Z",
+      "updatedAt": "2026-06-21T08:22:58.432Z"
+    }
+  ],
+  "DailyReport": [
+    {
+      "id": "f2d43cb1-7280-41a0-a604-7406acb67769",
+      "userId": "75cd93f1-b7fd-42ea-b299-6aedc8acd005",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.323Z"
+    },
+    {
+      "id": "bd325482-6cc7-4f7a-a68e-c1795376f259",
+      "userId": "51ba03b3-413b-438e-891d-1610c23da643",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.336Z"
+    },
+    {
+      "id": "4d7b41bb-04c0-4a28-9564-16a17da8aaa5",
+      "userId": "7f788515-fa18-49bc-a0ba-c26a5fdc362c",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.350Z"
+    },
+    {
+      "id": "48aee07e-fa1a-47c1-bd71-a5a3046b4507",
+      "userId": "a861a88c-7b03-439f-b08a-1a0366ac3349",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.365Z"
+    },
+    {
+      "id": "9e31448f-f868-40f6-8976-474ce6a022de",
+      "userId": "bc72137f-b37a-4347-893e-0899a77898e0",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.379Z"
+    },
+    {
+      "id": "0079c2d9-c5a9-40a5-b71e-fa11a8f1bb49",
+      "userId": "db831bf6-3542-42fe-95c3-6b68ad750065",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.392Z"
+    },
+    {
+      "id": "5d330c28-e37f-45ee-a874-ab9e4a2671f5",
+      "userId": "5b79bdc7-bd67-44e5-be40-971c7774e75d",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.406Z"
+    },
+    {
+      "id": "be0d8bd8-354c-400d-b4a2-d77e8870b471",
+      "userId": "52089511-f0b8-455f-b65e-ce191747a8b2",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.420Z"
+    },
+    {
+      "id": "30bbcff3-53fb-4610-a574-f8f4d11101d0",
+      "userId": "fde3a7d5-6534-4248-bceb-d05fe103ce1f",
+      "date": "2026-06-21",
+      "accomplishments": "Completed assigned tasks and reviewed PRs.",
+      "challenges": "Minor blocker on staging environment.",
+      "supportNeeded": "Access to production logs.",
+      "tomorrowPlan": "Start next module and write tests.",
+      "submittedAt": "2026-06-21T08:22:58.435Z"
+    }
+  ],
+  "ActivityLog": [],
+  "Notification": []
+}

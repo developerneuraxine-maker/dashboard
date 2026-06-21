@@ -33,11 +33,11 @@ import { productivityScore, formatHours, formatHoursWithSeconds } from "@/lib/pr
 /* ------------------------------------------------------------------ */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl transition-all duration-300 hover:scale-[1.005] hover:shadow-xl ${className}`}
+    className={`rounded-2xl transition-all duration-300 hover:scale-[1.012] hover:shadow-2xl hover:-translate-y-[1px] ${className}`}
     style={{
-      background: `linear-gradient(135deg, ${t.bgElev}, ${t.bgElev}dd)`,
+      background: `linear-gradient(135deg, ${t.bgElev}ee, ${t.bgElev}bb)`,
       border: `1px solid ${t.border}`,
-      backdropFilter: "blur(12px)",
+      backdropFilter: "blur(16px)",
       boxShadow: t.shadow,
       ...style
     }}
@@ -53,7 +53,7 @@ const Ring = ({ value, size = 64, stroke = 6, t, label }: any) => {
   const col = value >= 80 ? t.success : value >= 60 ? t.info : value >= 40 ? t.warn : t.danger;
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-90">
+      <svg width={size} height={size} className="-rotate-90 filter drop-shadow-[0_0_6px_rgba(124,107,240,0.15)]">
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={t.bgElev2} strokeWidth={stroke} />
         <circle
           cx={size / 2} cy={size / 2} r={r} fill="none" stroke={col} strokeWidth={stroke}
@@ -63,10 +63,10 @@ const Ring = ({ value, size = 64, stroke = 6, t, label }: any) => {
         />
       </svg>
       <div className="absolute flex flex-col items-center">
-        <span className="font-mono font-semibold leading-none" style={{ color: t.text, fontSize: size * 0.28 }}>
-          {value}
+        <span className="font-mono font-bold leading-none" style={{ color: t.text, fontSize: size * 0.26 }}>
+          {value}%
         </span>
-        {label && <span className="mt-0.5 text-[9px] uppercase tracking-wider" style={{ color: t.textFaint }}>{label}</span>}
+        {label && <span className="mt-0.5 text-[8px] uppercase tracking-wider font-semibold" style={{ color: t.textFaint }}>{label}</span>}
       </div>
     </div>
   );
@@ -358,10 +358,10 @@ export default function DashboardClient({
   return (
     <div className="space-y-5">
       {/* Quick Attendance Control Banner */}
-      <Card t={t} className="p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 bg-gradient-to-r from-[#1B2130]/80 via-[#131722]/80 to-[#1B2130]/80 border border-[#232A3B]">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#7C6BF0]/5 via-transparent to-[#A78BFA]/5 pointer-events-none" />
+      <Card t={t} className="p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 border border-white/5 shadow-2xl bg-gradient-to-r from-[#1B2130]/90 via-[#131722]/80 to-[#1B2130]/90">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#7C6BF0]/8 via-transparent to-[#A78BFA]/8 pointer-events-none" />
         <div className="text-center md:text-left z-10">
-          <h2 className="text-lg font-bold" style={{ color: t.text }}>
+          <h2 className="text-lg font-bold tracking-tight" style={{ color: t.text }}>
             {!clockIn ? "Ready to start your workday?" : clockOut ? "Workday complete!" : "You are currently clocked in"}
           </h2>
           <p className="text-xs mt-1" style={{ color: t.textMuted }}>
@@ -375,7 +375,7 @@ export default function DashboardClient({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
-                  Work session running. Live timer: <span className="font-mono font-semibold text-emerald-400 ml-1">{formatHoursWithSeconds(liveHours)}</span>
+                  Work session running. Live timer: <span className="font-mono font-bold text-emerald-400 ml-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">{formatHoursWithSeconds(liveHours)}</span>
                 </span>
               )}
           </p>
@@ -385,7 +385,7 @@ export default function DashboardClient({
             <button
               onClick={() => handleClockAction("clock-in")}
               disabled={loadingClock}
-              className="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] shadow-lg shadow-[#7C6BF0]/10 hover:brightness-110 active:scale-95 transition-all text-sm"
+              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] shadow-lg shadow-[#7C6BF0]/20 hover:brightness-110 active:scale-95 transition-all text-sm hover:shadow-[#7C6BF0]/40"
             >
               {loadingClock ? "Clocking In..." : "Clock In"}
             </button>
@@ -393,7 +393,7 @@ export default function DashboardClient({
             <button
               onClick={() => handleClockAction("clock-out")}
               disabled={loadingClock}
-              className="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FB7185] to-[#FB526B] shadow-lg shadow-[#FB7185]/10 hover:brightness-110 active:scale-95 transition-all text-sm"
+              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FB7185] to-[#FB526B] shadow-lg shadow-[#FB7185]/20 hover:brightness-110 active:scale-95 transition-all text-sm hover:shadow-[#FB7185]/40"
             >
               {loadingClock ? "Clocking Out..." : "Clock Out"}
             </button>

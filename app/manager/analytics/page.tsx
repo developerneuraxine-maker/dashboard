@@ -26,13 +26,13 @@ export default async function ManagerAnalyticsPage() {
     `)
     .eq("role", "EMPLOYEE");
 
-  const dbEmployees = (dbEmployeesData || []).map(emp => {
+  const dbEmployees = (dbEmployeesData || []).map((emp: any) => {
     const attendance = (emp.attendance || []).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     const tasks = emp.tasks || [];
     return { ...emp, attendance, tasks };
   });
 
-  const employeesStats = dbEmployees.map((emp) => {
+  const employeesStats = dbEmployees.map((emp: any) => {
     // Calc task rate
     const totalTasks = emp.tasks.length;
     const completedTasks = emp.tasks.filter((t: any) => t.status === "COMPLETED").length;
@@ -73,7 +73,7 @@ export default async function ManagerAnalyticsPage() {
   });
 
   const groups: Record<string, number[]> = {};
-  employeesStats.forEach((e) => {
+  employeesStats.forEach((e: any) => {
     (groups[e.department] = groups[e.department] || []).push(e.score);
   });
   const deptData = Object.entries(groups).map(([dept, arr]) => ({
@@ -82,10 +82,13 @@ export default async function ManagerAnalyticsPage() {
   }));
 
   const getLocalDateString = (d = new Date()) => {
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
+    const formatter = new Intl.DateTimeFormat("en-ZA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    return formatter.format(d).replace(/\//g, "-");
   };
 
   // 1. Weekly Productivity Trend (last 6 weeks)
@@ -104,7 +107,7 @@ export default async function ManagerAnalyticsPage() {
     startOfRangeDate.setHours(0, 0, 0, 0);
 
     const weeklyScores: number[] = [];
-    dbEmployees.forEach((emp) => {
+    dbEmployees.forEach((emp: any) => {
       const weekAttendance = emp.attendance.filter((a: any) => {
         const d = new Date(a.date);
         return d >= startOfRangeDate && d <= endOfRange;
@@ -153,7 +156,7 @@ export default async function ManagerAnalyticsPage() {
 
   const seriesDailyHours = last10Days.map((dateStr) => {
     let totalHoursForDay = 0;
-    dbEmployees.forEach((emp) => {
+    dbEmployees.forEach((emp: any) => {
       const rec = emp.attendance.find((a: any) => a.date === dateStr);
       if (rec) {
         totalHoursForDay += rec.totalHours || 0;
@@ -180,7 +183,7 @@ export default async function ManagerAnalyticsPage() {
     let presentCount = 0;
     let absentCount = 0;
 
-    dbEmployees.forEach((emp) => {
+    dbEmployees.forEach((emp: any) => {
       emp.attendance.forEach((a: any) => {
         const ad = new Date(a.date);
         if (ad.getFullYear() === yearNum && ad.getMonth() === monthNum) {

@@ -140,23 +140,31 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
 
   return (
     <div
-      className="flex h-screen w-full overflow-hidden"
+      className="flex h-screen w-full overflow-hidden relative"
       style={{
         background: t.bg,
         fontFamily: "ui-sans-serif, system-ui, -apple-system, sans-serif",
       }}
     >
+      {/* Dynamic Glowing Blobs for Premium Aesthetic */}
+      <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[45%] rounded-full bg-gradient-to-br from-[#7C6BF0] to-transparent opacity-[0.08] blur-[80px] pointer-events-none animate-blob" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-[#A78BFA] to-transparent opacity-[0.06] blur-[100px] pointer-events-none animate-blob animation-delay-4000" />
+
       {/* Desktop sidebar */}
       <aside
-        className={`hidden shrink-0 flex-col p-4 transition-all md:flex ${
+        className={`hidden shrink-0 flex-col p-4 transition-all duration-300 md:flex ${
           collapsed ? "w-[76px]" : "w-60"
-        }`}
-        style={{ background: t.bgElev, borderRight: `1px solid ${t.border}` }}
+        } relative z-10`}
+        style={{
+          background: mode === "dark" ? "rgba(19, 23, 34, 0.65)" : "rgba(255, 255, 255, 0.75)",
+          borderRight: `1px solid ${t.border}`,
+          backdropFilter: "blur(20px)",
+        }}
       >
         <SidebarInner />
         <button
           onClick={() => setCollapsed((c) => !c)}
-          className="mt-3 flex items-center justify-center rounded-lg py-2"
+          className="mt-3 flex items-center justify-center rounded-lg py-2 hover:bg-black/5 dark:hover:bg-white/5 transition"
           style={{ color: t.textFaint, border: `1px solid ${t.border}` }}
         >
           {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
@@ -167,13 +175,16 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
       {mobileNav && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div
-            className="absolute inset-0"
-            style={{ background: "rgba(0,0,0,0.5)" }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileNav(false)}
           />
           <aside
-            className="absolute left-0 top-0 flex h-full w-64 flex-col p-4"
-            style={{ background: t.bgElev, borderRight: `1px solid ${t.border}` }}
+            className="absolute left-0 top-0 flex h-full w-64 flex-col p-4 z-50 transition-all duration-300"
+            style={{
+              background: mode === "dark" ? "rgba(19, 23, 34, 0.9)" : "rgba(255, 255, 255, 0.95)",
+              borderRight: `1px solid ${t.border}`,
+              backdropFilter: "blur(24px)",
+            }}
           >
             <SidebarInner />
           </aside>
@@ -181,21 +192,25 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
       )}
 
       {/* Main Content Area */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col relative z-10">
         {/* Topbar */}
         <header
-          className="flex items-center gap-3 px-4 py-3 md:px-6"
-          style={{ background: t.bgElev, borderBottom: `1px solid ${t.border}` }}
+          className="flex items-center gap-3 px-4 py-3 md:px-6 relative z-10"
+          style={{
+            background: mode === "dark" ? "rgba(19, 23, 34, 0.45)" : "rgba(255, 255, 255, 0.55)",
+            borderBottom: `1px solid ${t.border}`,
+            backdropFilter: "blur(16px)",
+          }}
         >
           <button
-            className="md:hidden"
+            className="md:hidden p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition"
             onClick={() => setMobileNav(true)}
             style={{ color: t.text }}
           >
             <Menu size={20} />
           </button>
           <div className="min-w-0">
-            <h1 className="truncate text-lg font-semibold" style={{ color: t.text }}>
+            <h1 className="truncate text-lg font-bold tracking-tight" style={{ color: t.text }}>
               {title}
             </h1>
             <p className="hidden text-xs sm:block" style={{ color: t.textFaint }}>
@@ -203,7 +218,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
             </p>
           </div>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-3">
             <div className="relative hidden lg:block">
               <Search
                 size={15}
@@ -212,7 +227,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
               />
               <input
                 placeholder="Search…"
-                className="w-44 rounded-xl py-2 pl-9 pr-3 text-sm outline-none"
+                className="w-44 rounded-xl py-2 pl-9 pr-3 text-sm outline-none focus:w-56 transition-all duration-300"
                 style={{
                   background: t.bg,
                   color: t.text,
@@ -221,7 +236,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
               />
             </div>
             <button
-              className="relative rounded-xl p-2.5"
+              className="relative rounded-xl p-2.5 hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
               style={{
                 background: t.bg,
                 border: `1px solid ${t.border}`,
@@ -229,11 +244,11 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
               }}
             >
               <Bell size={17} />
-              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500" />
+              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
             </button>
             <button
               onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-              className="rounded-xl p-2.5"
+              className="rounded-xl p-2.5 hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
               style={{
                 background: t.bg,
                 border: `1px solid ${t.border}`,
@@ -251,7 +266,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
             >
               {/* Avatar circle */}
               <div
-                className="flex h-7 w-7 items-center justify-center rounded-full font-semibold text-white"
+                className="flex h-7 w-7 items-center justify-center rounded-full font-semibold text-white shadow-md shadow-[#7C6BF0]/20"
                 style={{
                   background: `linear-gradient(135deg, ${t.brand}, ${t.brand2})`,
                   fontSize: "11px",
@@ -260,10 +275,10 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
                 {initials}
               </div>
               <div className="hidden sm:block">
-                <p className="text-xs font-medium leading-none" style={{ color: t.text }}>
+                <p className="text-xs font-semibold leading-none" style={{ color: t.text }}>
                   {session?.user?.name || "Employee"}
                 </p>
-                <p className="text-[10px]" style={{ color: t.textFaint }}>
+                <p className="text-[10px] font-medium" style={{ color: t.textFaint }}>
                   {session?.user?.role || "EMPLOYEE"}
                 </p>
               </div>

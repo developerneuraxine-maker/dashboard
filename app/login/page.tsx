@@ -43,9 +43,9 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 rounded-2xl border border-[#232A3B] bg-[#131722] p-8 shadow-2xl">
+    <div className="w-full max-w-md space-y-8 rounded-3xl border border-white/5 bg-[#131722]/60 backdrop-blur-xl p-8 shadow-2xl relative z-10">
       <div className="flex flex-col items-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#7C6BF0] to-[#A78BFA] shadow-lg shadow-[#7C6BF0]/20">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7C6BF0] to-[#A78BFA] shadow-lg shadow-[#7C6BF0]/20">
           <Zap size={24} color="#fff" fill="#fff" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold tracking-tight text-[#E7EAF0]">
@@ -83,7 +83,7 @@ function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. manager@worktrack.io"
-              className="mt-1 block w-full rounded-xl border border-[#232A3B] bg-[#1B2130] px-4 py-3 text-[#E7EAF0] placeholder-[#5C6781] shadow-sm focus:border-[#7C6BF0] focus:ring-1 focus:ring-[#7C6BF0] focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-xl border border-white/5 bg-[#1B2130]/80 px-4 py-3 text-[#E7EAF0] placeholder-[#5C6781] shadow-sm focus:border-[#7C6BF0] focus:ring-1 focus:ring-[#7C6BF0] focus:outline-none sm:text-sm transition"
             />
           </div>
           <div>
@@ -99,7 +99,7 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="mt-1 block w-full rounded-xl border border-[#232A3B] bg-[#1B2130] px-4 py-3 text-[#E7EAF0] placeholder-[#5C6781] shadow-sm focus:border-[#7C6BF0] focus:ring-1 focus:ring-[#7C6BF0] focus:outline-none sm:text-sm"
+              className="mt-1 block w-full rounded-xl border border-white/5 bg-[#1B2130]/80 px-4 py-3 text-[#E7EAF0] placeholder-[#5C6781] shadow-sm focus:border-[#7C6BF0] focus:ring-1 focus:ring-[#7C6BF0] focus:outline-none sm:text-sm transition"
             />
           </div>
         </div>
@@ -108,7 +108,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="group relative flex w-full justify-center rounded-xl bg-gradient-to-r from-[#6D5DE6] to-[#8B7CF0] px-4 py-3 text-sm font-medium text-white hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#7C6BF0] focus:ring-offset-2 focus:ring-offset-[#0B0E14] disabled:opacity-50 transition-all duration-200"
+            className="group relative flex w-full justify-center rounded-xl bg-gradient-to-r from-[#6D5DE6] to-[#8B7CF0] px-4 py-3 text-sm font-semibold text-white hover:brightness-110 active:scale-[0.98] transition-all duration-200 shadow-md shadow-[#6D5DE6]/20"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -117,23 +117,28 @@ function LoginForm() {
 
       <div className="text-center text-sm text-[#99A2B5]">
         Don't have an account?{" "}
-        <Link href="/signup" className="font-medium text-[#A78BFA] hover:underline">
+        <Link href="/signup" className="font-semibold text-[#A78BFA] hover:underline">
           Sign Up
         </Link>
       </div>
 
-      <div className="mt-6 rounded-xl bg-[#1B2130]/50 p-4 border border-[#232A3B]/50">
+      <div className="mt-6 rounded-2xl bg-[#1B2130]/50 p-4 border border-[#232A3B]/50">
         <p className="text-xs font-bold text-[#E7EAF0] uppercase tracking-wider mb-2">Seeded Logins:</p>
-        <div className="space-y-1.5 text-xs text-[#99A2B5]">
-          <p>
-            <span className="font-semibold text-[#A78BFA]">Manager:</span> <code className="select-all bg-[#0B0E14] px-1 py-0.5 rounded text-[#E7EAF0]">manager@worktrack.io</code>
-          </p>
-          <p>
-            <span className="font-semibold text-[#A78BFA]">Employee:</span> <code className="select-all bg-[#0B0E14] px-1 py-0.5 rounded text-[#E7EAF0]">hardiksedani95@gmail.com</code>
-          </p>
-          <p>
-            <span className="font-semibold text-[#A78BFA]">Password:</span> <code className="select-all bg-[#0B0E14] px-1 py-0.5 rounded text-[#E7EAF0]">password123</code>
-          </p>
+        <div className="space-y-2 text-xs text-[#99A2B5]">
+          <div>
+            <span className="font-semibold text-[#A78BFA]">Manager:</span>
+            <div className="flex gap-1 mt-1">
+              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">manager@worktrack.io</code>
+              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">hardik@123</code>
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold text-[#A78BFA]">Employee:</span>
+            <div className="flex gap-1 mt-1">
+              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">hardiksedani95@gmail.com</code>
+              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">password123</code>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -142,7 +147,11 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0B0E14] px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen items-center justify-center bg-[#0B0E14] px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#7C6BF0] rounded-full filter blur-[120px] opacity-[0.06] animate-blob pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#A78BFA] rounded-full filter blur-[120px] opacity-[0.05] animate-blob animation-delay-4000 pointer-events-none" />
+
       <Suspense fallback={<div className="text-[#E7EAF0]">Loading...</div>}>
         <LoginForm />
       </Suspense>

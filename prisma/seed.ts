@@ -11,10 +11,13 @@ const startOfDay = (offset = 0) => {
 };
 
 const getLocalDateString = (d = new Date()) => {
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+  const formatter = new Intl.DateTimeFormat("en-ZA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return formatter.format(d).replace(/\//g, "-");
 };
 
 async function clearTable(tableName: string) {

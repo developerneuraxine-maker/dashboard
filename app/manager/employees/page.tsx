@@ -7,10 +7,13 @@ import { productivityScore } from "@/lib/productivity";
 export const dynamic = "force-dynamic";
 
 const getLocalDateString = (d = new Date()) => {
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+  const formatter = new Intl.DateTimeFormat("en-ZA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return formatter.format(d).replace(/\//g, "-");
 };
 
 export default async function ManagerEmployeesPage() {
@@ -35,13 +38,13 @@ export default async function ManagerEmployeesPage() {
     `)
     .eq("role", "EMPLOYEE");
 
-  const dbEmployees = (dbEmployeesData || []).map(emp => {
+  const dbEmployees = (dbEmployeesData || []).map((emp: any) => {
     const attendance = (emp.attendance || []).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
     const tasks = emp.tasks || [];
     return { ...emp, attendance, tasks };
   });
 
-  const employeesStats = dbEmployees.map((emp) => {
+  const employeesStats = dbEmployees.map((emp: any) => {
     const todayRecord = emp.attendance.find(
       (a: any) => a.date === todayStr
     );
