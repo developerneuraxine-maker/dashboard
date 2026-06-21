@@ -22,8 +22,14 @@ import {
 /* Primitives */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl ${className}`}
-    style={{ background: t.bgElev, border: `1px solid ${t.border}`, ...style }}
+    className={`rounded-2xl transition-all duration-300 hover:scale-[1.005] hover:shadow-xl ${className}`}
+    style={{
+      background: `linear-gradient(135deg, ${t.bgElev}, ${t.bgElev}dd)`,
+      border: `1px solid ${t.border}`,
+      backdropFilter: "blur(12px)",
+      boxShadow: t.shadow,
+      ...style
+    }}
     {...p}
   >
     {children}
@@ -198,43 +204,20 @@ const Leaderboard = ({ t, employees, onSelectEmployee }: any) => {
 interface AnalyticsClientProps {
   employees: any[];
   deptData: any[];
+  seriesWeekly: Array<{ week: string; score: number }>;
+  seriesDailyHours: Array<{ day: string; hours: number }>;
+  seriesMonthly: Array<{ month: string; present: number; absent: number }>;
 }
 
-export default function AnalyticsClient({ employees, deptData }: AnalyticsClientProps) {
+export default function AnalyticsClient({
+  employees,
+  deptData,
+  seriesWeekly,
+  seriesDailyHours,
+  seriesMonthly,
+}: AnalyticsClientProps) {
   const { t } = useTheme();
   const router = useRouter();
-
-  // Seed standard data ranges for display
-  const seriesWeekly = [
-    { week: "W1", score: 74 },
-    { week: "W2", score: 78 },
-    { week: "W3", score: 81 },
-    { week: "W4", score: 77 },
-    { week: "W5", score: 85 },
-    { week: "W6", score: 88 },
-  ];
-
-  const seriesMonthly = [
-    { month: "Jan", present: 20, absent: 2 },
-    { month: "Feb", present: 19, absent: 1 },
-    { month: "Mar", present: 22, absent: 0 },
-    { month: "Apr", present: 21, absent: 1 },
-    { month: "May", present: 20, absent: 2 },
-    { month: "Jun", present: 18, absent: 1 },
-  ];
-
-  const seriesDailyHours = [
-    { day: "Mon", hours: 7.8 },
-    { day: "Tue", hours: 8.2 },
-    { day: "Wed", hours: 7.4 },
-    { day: "Thu", hours: 8.6 },
-    { day: "Fri", hours: 7.1 },
-    { day: "Mon ", hours: 8.0 },
-    { day: "Tue ", hours: 7.9 },
-    { day: "Wed ", hours: 8.4 },
-    { day: "Thu ", hours: 6.8 },
-    { day: "Fri ", hours: 7.6 },
-  ];
 
   const handleSelectEmployee = (id: string) => {
     router.push(`/manager/employees/${id}`);

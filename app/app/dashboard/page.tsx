@@ -117,7 +117,7 @@ export default async function EmployeeDashboardPage() {
 
     const wActiveDays = weekAttendance.filter((a: any) => (a.totalHours ?? 0) > 0);
     const wAvgHours = wActiveDays.length > 0
-      ? wActiveDays.reduce((sum, a) => sum + (a.totalHours ?? 0), 0) / wActiveDays.length
+      ? wActiveDays.reduce((sum: number, a: any) => sum + (a.totalHours ?? 0), 0) / wActiveDays.length
       : 8.0;
     const wHoursCompliance = Math.min(100, Math.round((wAvgHours / 8.0) * 100));
 

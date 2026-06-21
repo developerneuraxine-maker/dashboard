@@ -93,6 +93,10 @@ export default async function EmployeeDetailPage({ params }: PageProps) {
     day: "numeric",
   });
 
+  const inProgressTasks = emp.tasks.filter((t: any) => t.status === "IN_PROGRESS").length;
+  const pendingTasks = emp.tasks.filter((t: any) => t.status === "PENDING").length;
+  const blockedTasks = emp.tasks.filter((t: any) => t.status === "BLOCKED").length;
+
   const employeeData = {
     id: emp.id,
     name: emp.name,
@@ -113,12 +117,14 @@ export default async function EmployeeDetailPage({ params }: PageProps) {
     score,
     late: todayRecord?.status === "LATE",
     tasksCompleted: completedTasks,
-    tasksPending: emp.tasks.filter((t: any) => t.status !== "COMPLETED").length,
+    tasksInProgress: inProgressTasks,
+    tasksPending: pendingTasks,
+    tasksBlocked: blockedTasks,
     taskRate,
   };
 
   const attendanceHistory = emp.attendance.slice(0, 14).reverse().map((a: any) => ({
-    day: new Date(a.date).toLocaleDateString("en-US", { weekday: "short" }),
+    day: new Date(a.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
     hours: a.totalHours || 0,
   }));
 
@@ -134,11 +140,28 @@ export default async function EmployeeDetailPage({ params }: PageProps) {
     tomorrowPlan: r.tomorrowPlan,
   }));
 
+  // Build 12x7 heatmap grid of logged hours (12 weeks * 7 days = 84 days)
+  const heatmapGrid = Array.from({ length: 12 }, () => Array(7).fill(0));
+  const today = new Date();
+  emp.attendance.forEach((att: any) => {
+    const attDate = new Date(att.date);
+    const diffTime = today.getTime() - attDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays >= 0 && diffDays < 84) {
+      const col = 11 - Math.floor(diffDays / 7);
+      const row = attDate.getDay(); // 0 is Sunday, 1 is Monday, etc.
+      if (col >= 0 && col < 12 && row >= 0 && row < 7) {
+        heatmapGrid[col][row] = Math.min(8, Math.round(att.totalHours || 0));
+      }
+    }
+  });
+
   return (
     <EmployeeDetailClient
       employee={employeeData}
       attendanceHistory={attendanceHistory}
       reports={formattedReports}
+      heatmapData={heatmapGrid}
     />
   );
 }

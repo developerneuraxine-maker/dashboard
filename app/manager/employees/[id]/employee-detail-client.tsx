@@ -20,8 +20,14 @@ import { formatHours } from "@/lib/productivity";
 /* Primitives */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl ${className}`}
-    style={{ background: t.bgElev, border: `1px solid ${t.border}`, ...style }}
+    className={`rounded-2xl transition-all duration-300 hover:scale-[1.005] hover:shadow-xl ${className}`}
+    style={{
+      background: `linear-gradient(135deg, ${t.bgElev}, ${t.bgElev}dd)`,
+      border: `1px solid ${t.border}`,
+      backdropFilter: "blur(12px)",
+      boxShadow: t.shadow,
+      ...style
+    }}
     {...p}
   >
     {children}
@@ -192,27 +198,20 @@ const TaskDonut = ({ t, breakdown, title, sub }: any) => {
   );
 };
 
-const Heatmap = ({ t, title, sub }: any) => {
-  // Deterministic heatmap pattern (12 weeks x 7 days)
-  const HEATMAP_GRID = Array.from({ length: 12 }, (_, w) =>
-    Array.from({ length: 7 }, (_, d) => {
-      if (d === 6) return 0;
-      const v = Math.abs(Math.sin(w * 1.5 + d * 0.8)) * 8 + 1;
-      return Math.min(8, Math.round(v));
-    })
-  );
-
+const Heatmap = ({ t, title, sub, data }: any) => {
   const shade = (v: number) => {
     if (v === 0) return t.bgElev2;
     const op = 0.18 + (v / 8) * 0.82;
     return t.brand + Math.round(op * 255).toString(16).padStart(2, "0");
   };
 
+  const grid = data || Array.from({ length: 12 }, () => Array(7).fill(0));
+
   return (
     <Card t={t} className="p-5">
       <SectionTitle t={t} sub={sub}>{title}</SectionTitle>
       <div className="mt-4 flex gap-1 overflow-x-auto pb-1 select-none">
-        {HEATMAP_GRID.map((week, wi) => (
+        {grid.map((week: number[], wi: number) => (
           <div key={wi} className="flex flex-col gap-1">
             {week.map((v, di) => (
               <div key={di} className="h-3.5 w-3.5 rounded-sm" style={{ background: shade(v) }} title={`${v}h`} />
@@ -246,7 +245,9 @@ interface EmployeeDetailClientProps {
     score: number;
     late: boolean;
     tasksCompleted: number;
+    tasksInProgress: number;
     tasksPending: number;
+    tasksBlocked: number;
     taskRate: number;
   };
   attendanceHistory: Array<{ day: string; hours: number }>;
@@ -257,12 +258,14 @@ interface EmployeeDetailClientProps {
     supportNeeded: string | null;
     tomorrowPlan: string | null;
   }>;
+  heatmapData: number[][];
 }
 
 export default function EmployeeDetailClient({
   employee,
   attendanceHistory,
   reports,
+  heatmapData,
 }: EmployeeDetailClientProps) {
   const { t } = useTheme();
   const router = useRouter();
@@ -318,9 +321,9 @@ export default function EmployeeDetailClient({
 
   const breakdown = [
     { name: "Completed", value: employee.tasksCompleted, color: t.success },
-    { name: "In progress", value: Math.max(1, Math.round(employee.tasksPending * 0.4)), color: t.info },
-    { name: "Pending", value: Math.max(1, Math.round(employee.tasksPending * 0.45)), color: t.warn },
-    { name: "Blocked", value: Math.round(employee.tasksPending * 0.15), color: t.danger },
+    { name: "In progress", value: employee.tasksInProgress, color: t.info },
+    { name: "Pending", value: employee.tasksPending, color: t.warn },
+    { name: "Blocked", value: employee.tasksBlocked, color: t.danger },
   ];
 
   return (
@@ -471,7 +474,7 @@ export default function EmployeeDetailClient({
         </form>
       </Card>
 
-      <Heatmap t={t} title="Activity heatmap" sub="Hours logged · last 12 weeks" />
+      <Heatmap t={t} title="Activity heatmap" sub="Hours logged · last 12 weeks" data={heatmapData} />
 
       <Card t={t} className="p-5">
         <SectionTitle t={t} sub="Most recent daily updates">Reports</SectionTitle>

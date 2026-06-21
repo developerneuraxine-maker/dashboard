@@ -50,6 +50,9 @@ export default async function ManagerDashboardPage() {
     // Calc task rate
     const totalTasks = emp.tasks.length;
     const completedTasks = emp.tasks.filter((t: any) => t.status === "COMPLETED").length;
+    const inProgressTasks = emp.tasks.filter((t: any) => t.status === "IN_PROGRESS").length;
+    const pendingTasks = emp.tasks.filter((t: any) => t.status === "PENDING").length;
+    const blockedTasks = emp.tasks.filter((t: any) => t.status === "BLOCKED").length;
     const taskRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
     // Calc attendance rate (last 10 days)
@@ -94,7 +97,9 @@ export default async function ManagerDashboardPage() {
       clockOut: todayRecord?.clockOut ? new Date(todayRecord.clockOut).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : null,
       hours: todayRecord?.totalHours || 0,
       tasksCompleted: completedTasks,
-      tasksPending: emp.tasks.filter((t: any) => t.status !== "COMPLETED").length,
+      tasksInProgress: inProgressTasks,
+      tasksPending: pendingTasks,
+      tasksBlocked: blockedTasks,
       attendance: attendanceRate,
       taskRate,
       hoursCompliance,
@@ -108,11 +113,11 @@ export default async function ManagerDashboardPage() {
   const presentCount = employeesStats.filter((e) => e.status === "Working" || e.clockIn).length;
   const absentCount = totalEmployees - presentCount;
   const onlineCount = employeesStats.filter((e) => e.status === "Working").length;
-  const totalTasksCompleted = employeesStats.reduce((sum, e) => sum + e.tasksCompleted, 0);
-  const totalTasksPending = employeesStats.reduce((sum, e) => sum + e.tasksPending, 0);
+  const totalTasksCompleted = employeesStats.reduce((sum: number, e: any) => sum + e.tasksCompleted, 0);
+  const totalTasksPending = employeesStats.reduce((sum: number, e: any) => sum + e.tasksPending, 0);
   const avgTeamScore =
     totalEmployees > 0
-      ? Math.round(employeesStats.reduce((sum, e) => sum + e.score, 0) / totalEmployees)
+      ? Math.round(employeesStats.reduce((sum: number, e: any) => sum + e.score, 0) / totalEmployees)
       : 0;
   const lateCount = employeesStats.filter((e) => e.late).length;
 

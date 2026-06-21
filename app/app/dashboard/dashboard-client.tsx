@@ -33,8 +33,14 @@ import { productivityScore, formatHours, formatHoursWithSeconds } from "@/lib/pr
 /* ------------------------------------------------------------------ */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl ${className}`}
-    style={{ background: t.bgElev, border: `1px solid ${t.border}`, ...style }}
+    className={`rounded-2xl transition-all duration-300 hover:scale-[1.005] hover:shadow-xl ${className}`}
+    style={{
+      background: `linear-gradient(135deg, ${t.bgElev}, ${t.bgElev}dd)`,
+      border: `1px solid ${t.border}`,
+      backdropFilter: "blur(12px)",
+      boxShadow: t.shadow,
+      ...style
+    }}
     {...p}
   >
     {children}
@@ -66,12 +72,18 @@ const Ring = ({ value, size = 64, stroke = 6, t, label }: any) => {
   );
 };
 
-const StatCard = ({ t, icon: Icon, label, value, accent, delta, mono = true }: any) => (
-  <Card t={t} className="p-4">
+const StatCard = ({ t, icon: Icon, label, value, accent, delta, mono = true, live }: any) => (
+  <Card t={t} className="p-4 relative overflow-hidden">
+    {live && (
+      <div className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full m-3 flex">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+      </div>
+    )}
     <div className="flex items-start justify-between">
       <div>
         <p className="text-xs font-medium" style={{ color: t.textMuted }}>{label}</p>
-        <p className={`mt-2 text-2xl font-semibold ${mono ? "font-mono" : ""}`} style={{ color: t.text }}>{value}</p>
+        <p className={`mt-2 text-2xl font-semibold ${mono ? "font-mono" : ""} ${live ? "text-emerald-400 font-bold animate-pulse" : ""}`} style={{ color: live ? undefined : t.text }}>{value}</p>
       </div>
       <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: accent + "22", color: accent }}>
         <Icon size={18} />
@@ -357,7 +369,15 @@ export default function DashboardClient({
               ? "Clock in now to start tracking your working hours and tasks." 
               : clockOut 
               ? `Great job today! Total hours logged: ${formatHours(clockRecord?.totalHours || 0)}` 
-              : `Work session running. Live timer: ${formatHoursWithSeconds(liveHours)}`}
+              : (
+                <span className="inline-flex items-center gap-1.5 select-none">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  Work session running. Live timer: <span className="font-mono font-semibold text-emerald-400 ml-1">{formatHoursWithSeconds(liveHours)}</span>
+                </span>
+              )}
           </p>
         </div>
         <div className="flex items-center gap-3 z-10">
@@ -389,7 +409,7 @@ export default function DashboardClient({
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard t={t} icon={Play} label="Clocked in" value={formattedClockIn} accent={t.success} />
         <StatCard t={t} icon={Square} label="Clocked out" value={formattedClockOut} accent={t.danger} />
-        <StatCard t={t} icon={Timer} label="Hours today" value={formatHoursWithSeconds(liveHours)} accent={t.brand} />
+        <StatCard t={t} icon={Timer} label="Hours today" value={formatHoursWithSeconds(liveHours)} accent={t.brand} live={clockIn && !clockOut} />
         <StatCard t={t} icon={Target} label="Productivity" value={`${score}%`} accent={t.info} delta={4} />
       </div>
 

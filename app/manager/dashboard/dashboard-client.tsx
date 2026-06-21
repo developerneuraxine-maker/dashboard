@@ -34,8 +34,14 @@ import { formatHours } from "@/lib/productivity";
 /* Primitives */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl ${className}`}
-    style={{ background: t.bgElev, border: `1px solid ${t.border}`, ...style }}
+    className={`rounded-2xl transition-all duration-300 hover:scale-[1.005] hover:shadow-xl ${className}`}
+    style={{
+      background: `linear-gradient(135deg, ${t.bgElev}, ${t.bgElev}dd)`,
+      border: `1px solid ${t.border}`,
+      backdropFilter: "blur(12px)",
+      boxShadow: t.shadow,
+      ...style
+    }}
     {...p}
   >
     {children}
@@ -257,13 +263,15 @@ export default function ManagerDashboardClient({
   const router = useRouter();
 
   const breakdown = useMemo(() => {
-    const done = employees.reduce((a, b) => a + b.tasksCompleted, 0);
-    const pend = employees.reduce((a, b) => a + b.tasksPending, 0);
+    const done = employees.reduce((a, b) => a + (b.tasksCompleted || 0), 0);
+    const inProgress = employees.reduce((a, b) => a + (b.tasksInProgress || 0), 0);
+    const pending = employees.reduce((a, b) => a + (b.tasksPending || 0), 0);
+    const blocked = employees.reduce((a, b) => a + (b.tasksBlocked || 0), 0);
     return [
       { name: "Completed", value: done, color: t.success },
-      { name: "In progress", value: Math.round(pend * 0.4), color: t.info },
-      { name: "Pending", value: Math.round(pend * 0.45), color: t.warn },
-      { name: "Blocked", value: Math.round(pend * 0.15), color: t.danger },
+      { name: "In progress", value: inProgress, color: t.info },
+      { name: "Pending", value: pending, color: t.warn },
+      { name: "Blocked", value: blocked, color: t.danger },
     ];
   }, [employees, t]);
 
