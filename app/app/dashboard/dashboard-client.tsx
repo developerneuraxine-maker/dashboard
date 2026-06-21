@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "@/lib/ThemeContext";
 import {
   Play,
@@ -152,6 +153,31 @@ const ProductivityLine = ({ t, data, title, sub }: any) => (
   </Card>
 );
 
+const STATUS_META: Record<string, { color: string; soft: string }> = {
+  PENDING: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
+  IN_PROGRESS: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
+  COMPLETED: { color: "#34D399", soft: "rgba(52,211,153,0.14)" },
+  BLOCKED: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
+  LOW: { color: "#99A2B5", soft: "rgba(153,162,181,0.14)" },
+  MEDIUM: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
+  HIGH: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
+  CRITICAL: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
+};
+
+const Badge = ({ t, status, label }: any) => {
+  const m = STATUS_META[status] || { color: t.textMuted, soft: t.bgElev2 };
+  const displayLabel = label || status.replace("_", " ").toLowerCase();
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium capitalize"
+      style={{ background: m.soft, color: m.color }}
+    >
+      <span className="h-1.5 w-1.5 rounded-full" style={{ background: m.color }} />
+      {displayLabel}
+    </span>
+  );
+};
+
 interface DashboardClientProps {
   todayRecord: {
     clockIn: string | null;
@@ -187,10 +213,25 @@ export default function DashboardClient({
   metrics,
 }: DashboardClientProps) {
   const { t } = useTheme();
-  const [now, setNow] = useState(new Date());
+  const router = useRouter();
 
-  const clockIn = todayRecord?.clockIn ? new Date(todayRecord.clockIn) : null;
-  const clockOut = todayRecord?.clockOut ? new Date(todayRecord.clockOut) : null;
+  const [now, setNow] = useState(new Date());
+  const [clockRecord, setClockRecord] = useState(todayRecord);
+  const [loadingClock, setLoadingClock] = useState(false);
+  const [quickTitle, setQuickTitle] = useState("");
+  const [addingTask, setAddingTask] = useState(false);
+  const [localTasks, setLocalTasks] = useState(tasks);
+
+  useEffect(() => {
+    setClockRecord(todayRecord);
+  }, [todayRecord]);
+
+  useEffect(() => {
+    setLocalTasks(tasks);
+  }, [tasks]);
+
+  const clockIn = clockRecord?.clockIn ? new Date(clockRecord.clockIn) : null;
+  const clockOut = clockRecord?.clockOut ? new Date(clockRecord.clockOut) : null;
 
   // Running live clock if clocked-in and not clocked-out yet
   useEffect(() => {
@@ -206,8 +247,81 @@ export default function DashboardClient({
     return Math.max(0, (end.getTime() - clockIn.getTime()) / 3600000);
   }, [clockIn, clockOut, now]);
 
-  const completed = tasks.filter((x) => x.status === "COMPLETED").length;
-  const pending = tasks.filter((x) => x.status !== "COMPLETED").length;
+  const handleClockAction = async (action: "clock-in" | "clock-out") => {
+    setLoadingClock(true);
+    try {
+      const res = await fetch("/api/attendance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      const data = await res.json();
+      if (res.ok && data.record) {
+        setClockRecord({
+          clockIn: data.record.clockIn || null,
+          clockOut: data.record.clockOut || null,
+          totalHours: data.record.totalHours,
+        });
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Failed to clock in/out", err);
+    } finally {
+      setLoadingClock(false);
+    }
+  };
+
+  const handleQuickAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickTitle.trim()) return;
+    setAddingTask(true);
+    try {
+      const res = await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: quickTitle }),
+      });
+      const data = await res.json();
+      if (res.ok && data.task) {
+        setLocalTasks((prev) => [data.task, ...prev]);
+        setQuickTitle("");
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Failed to add task", err);
+    } finally {
+      setAddingTask(false);
+    }
+  };
+
+  const handleCycleStatus = async (task: any) => {
+    const STATUSES = ["PENDING", "IN_PROGRESS", "COMPLETED", "BLOCKED"];
+    const nextIndex = (STATUSES.indexOf(task.status) + 1) % STATUSES.length;
+    const nextStatus = STATUSES[nextIndex];
+
+    try {
+      const res = await fetch("/api/tasks", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: task.id,
+          status: nextStatus,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.task) {
+        setLocalTasks((prev) =>
+          prev.map((t) => (t.id === task.id ? { ...t, status: nextStatus } : t))
+        );
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Failed to cycle task status", err);
+    }
+  };
+
+  const completed = localTasks.filter((x) => x.status === "COMPLETED").length;
+  const pending = localTasks.filter((x) => x.status !== "COMPLETED").length;
 
   const score = productivityScore(
     metrics.taskRate,
@@ -233,6 +347,47 @@ export default function DashboardClient({
 
   return (
     <div className="space-y-5">
+      {/* Quick Attendance Control Banner */}
+      <Card t={t} className="p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 bg-gradient-to-r from-[#1B2130]/80 via-[#131722]/80 to-[#1B2130]/80 border border-[#232A3B]">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#7C6BF0]/5 via-transparent to-[#A78BFA]/5 pointer-events-none" />
+        <div className="text-center md:text-left z-10">
+          <h2 className="text-lg font-bold" style={{ color: t.text }}>
+            {!clockIn ? "Ready to start your workday?" : clockOut ? "Workday complete!" : "You are currently clocked in"}
+          </h2>
+          <p className="text-xs mt-1" style={{ color: t.textMuted }}>
+            {!clockIn 
+              ? "Clock in now to start tracking your working hours and tasks." 
+              : clockOut 
+              ? `Great job today! Total hours logged: ${formatHours(clockRecord?.totalHours || 0)}` 
+              : `Work session running. Live timer: ${formatHours(liveHours)}`}
+          </p>
+        </div>
+        <div className="flex items-center gap-3 z-10">
+          {!clockIn ? (
+            <button
+              onClick={() => handleClockAction("clock-in")}
+              disabled={loadingClock}
+              className="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] shadow-lg shadow-[#7C6BF0]/10 hover:brightness-110 active:scale-95 transition-all text-sm"
+            >
+              {loadingClock ? "Clocking In..." : "Clock In"}
+            </button>
+          ) : !clockOut ? (
+            <button
+              onClick={() => handleClockAction("clock-out")}
+              disabled={loadingClock}
+              className="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FB7185] to-[#FB526B] shadow-lg shadow-[#FB7185]/10 hover:brightness-110 active:scale-95 transition-all text-sm"
+            >
+              {loadingClock ? "Clocking Out..." : "Clock Out"}
+            </button>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: t.successSoft, color: t.success }}>
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: t.success }} />
+              Completed
+            </span>
+          )}
+        </div>
+      </Card>
+
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard t={t} icon={Play} label="Clocked in" value={formattedClockIn} accent={t.success} />
         <StatCard t={t} icon={Square} label="Clocked out" value={formattedClockOut} accent={t.danger} />
@@ -271,7 +426,62 @@ export default function DashboardClient({
         <StatCard t={t} icon={Activity} label="Task Rate" value={`${metrics.taskRate}%`} accent={t.info} />
       </div>
 
-      <ProductivityLine t={t} data={seriesWeekly} title="My weekly productivity" sub="Last 6 weeks" />
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <Card t={t} className="p-5 flex flex-col justify-between border border-[#232A3B]">
+            <div>
+              <SectionTitle t={t} sub="Tap status badge to cycle. Enter to add.">My Tasks Today</SectionTitle>
+            </div>
+            
+            <form onSubmit={handleQuickAdd} className="mt-4 flex gap-2">
+              <input
+                type="text"
+                value={quickTitle}
+                onChange={(e) => setQuickTitle(e.target.value)}
+                placeholder="What are you working on next?"
+                disabled={addingTask}
+                className="flex-1 rounded-xl border border-[#232A3B] bg-[#1B2130] px-4 py-2.5 text-sm text-[#E7EAF0] placeholder-[#5C6781] outline-none focus:border-[#7C6BF0] transition"
+                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+              />
+              <button
+                type="submit"
+                disabled={addingTask || !quickTitle.trim()}
+                className="rounded-xl px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] hover:brightness-110 active:scale-95 transition disabled:opacity-40"
+              >
+                {addingTask ? "Adding..." : "Add"}
+              </button>
+            </form>
+
+            <div className="mt-4 space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+              {localTasks.length === 0 ? (
+                <div className="text-center py-8 text-xs" style={{ color: t.textFaint }}>
+                  No tasks tracked today. Use the input above to quickly list a task!
+                </div>
+              ) : (
+                localTasks.slice(0, 5).map((task: any) => (
+                  <div key={task.id} className="flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-black/5 transition" style={{ background: t.bgElev2, border: `1px solid ${t.border}` }}>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold truncate" style={{ color: t.text }}>{task.title}</p>
+                      <p className="text-[10px] mt-0.5" style={{ color: t.textFaint }}>
+                        {task.projectName ? `Project: ${task.projectName}` : "No Project"}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge t={t} status={task.priority} />
+                      <button onClick={() => handleCycleStatus(task)} className="shrink-0">
+                        <Badge t={t} status={task.status} />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </Card>
+        </div>
+        <div>
+          <ProductivityLine t={t} data={seriesWeekly} title="Productivity trend" sub="Last 6 weeks" />
+        </div>
+      </div>
     </div>
   );
 }
