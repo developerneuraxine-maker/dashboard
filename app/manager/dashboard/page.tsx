@@ -96,8 +96,8 @@ export default async function ManagerDashboardPage() {
           ? "Working"
           : "Offline"
         : "Offline",
-      clockIn: todayRecord?.clockIn ? new Date(todayRecord.clockIn).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) : null,
-      clockOut: todayRecord?.clockOut ? new Date(todayRecord.clockOut).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) : null,
+      clockIn: todayRecord?.clockIn ? new Date(todayRecord.clockIn).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) + " IST" : null,
+      clockOut: todayRecord?.clockOut ? new Date(todayRecord.clockOut).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) + " IST" : null,
       hours: todayRecord?.totalHours || 0,
       tasksCompleted: completedTasks,
       tasksInProgress: inProgressTasks,

@@ -426,11 +426,11 @@ export default function DashboardClient({
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           t={t} icon={Play} label="Clocked in" value={formattedClockIn}
-          accent={t.success} sub="IST"
+          accent={t.success}
         />
         <StatCard
           t={t} icon={Square} label="Clocked out" value={formattedClockOut}
-          accent={t.danger} sub="IST"
+          accent={t.danger}
         />
         <StatCard
           t={t} icon={Timer} label="Hours today"

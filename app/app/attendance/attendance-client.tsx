@@ -133,11 +133,12 @@ export default function AttendanceClient({ todayRecord: initialToday, history }:
 
   const formatTime = (isoString: string | null) => {
     if (!isoString) return "—";
-    return new Date(isoString).toLocaleTimeString("en-US", {
+    const t = new Date(isoString).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       timeZone: "Asia/Kolkata",
     });
+    return `${t} IST`;
   };
 
   return (
@@ -191,7 +192,7 @@ export default function AttendanceClient({ todayRecord: initialToday, history }:
           {[
             ["Clock in", formatTime(today?.clockIn || null), isLate ? t.danger : t.success],
             ["Clock out", formatTime(today?.clockOut || null), t.textMuted],
-            ["Company start", "09:30 AM", t.textMuted],
+            ["Company start", "09:30 AM IST", t.textMuted],
           ].map(([l, v, c]) => (
             <div key={l} className="px-4 py-4 text-center" style={{ borderColor: t.border }}>
               <p className="text-xs" style={{ color: t.textFaint }}>{l}</p>

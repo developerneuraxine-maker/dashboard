@@ -18,17 +18,18 @@ export function fmtISTDate(date: Date | string | null | undefined): string {
   }).format(d);
 }
 
-/** "08:45 PM" */
+/** "08:45 PM IST" */
 export function fmtISTTime(date: Date | string | null | undefined): string {
   if (!date) return "—";
   const d = new Date(date);
   if (isNaN(d.getTime())) return "—";
-  return new Intl.DateTimeFormat("en-US", {
+  const t = new Intl.DateTimeFormat("en-US", {
     timeZone: TZ,
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
   }).format(d);
+  return `${t} IST`;
 }
 
 /** "08:45:23 PM IST" */
@@ -52,8 +53,8 @@ export function fmtISTFull(date: Date | string | null | undefined): string {
   const d = new Date(date);
   if (isNaN(d.getTime())) return "—";
   const datePart = fmtISTDate(d);
-  const timePart = fmtISTTime(d);
-  return `${datePart}, ${timePart} IST`;
+  const timePart = fmtISTTime(d); // already includes " IST"
+  return `${datePart}, ${timePart}`;
 }
 
 /** Returns current IST time as "08:45:23 PM IST" */
@@ -63,7 +64,7 @@ export function nowISTTimeFull(): string {
 
 /** Returns current IST time as "08:45 PM IST" */
 export function nowISTTime(): string {
-  return `${fmtISTTime(new Date())} IST`;
+  return fmtISTTime(new Date());
 }
 
 /** Returns current IST datetime as "21 Jun 2026, 08:45 PM IST" */
