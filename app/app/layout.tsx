@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "@/lib/ThemeContext";
+import { fmtISTTimeFull } from "@/lib/ist";
 import {
   LayoutDashboard,
   Clock,
@@ -36,6 +37,14 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
 
   const [collapsed, setCollapsed] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
+  const [istTime, setIstTime] = useState("");
+
+  useEffect(() => {
+    const update = () => setIstTime(fmtISTTimeFull(new Date()));
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   const activeNav = useMemo(() => {
     return NAV.find((n) => pathname.startsWith(n.href))?.id || "dashboard";
@@ -219,6 +228,16 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
           </div>
 
           <div className="ml-auto flex items-center gap-3">
+            {/* IST live clock */}
+            {istTime && (
+              <span
+                className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-mono text-xs font-medium"
+                style={{ background: t.bgElev2, color: t.textMuted, border: `1px solid ${t.border}` }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {istTime}
+              </span>
+            )}
             <div className="relative hidden lg:block">
               <Search
                 size={15}
@@ -244,7 +263,6 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
               }}
             >
               <Bell size={17} />
-              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
             </button>
             <button
               onClick={() => setMode(mode === "dark" ? "light" : "dark")}

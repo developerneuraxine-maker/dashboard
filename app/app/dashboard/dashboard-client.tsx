@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/lib/ThemeContext";
 import {
@@ -14,6 +14,8 @@ import {
   Activity,
   TrendingUp,
   TrendingDown,
+  RefreshCw,
+  ClipboardList,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -27,19 +29,27 @@ import {
   Tooltip,
 } from "recharts";
 import { productivityScore, formatHours, formatHoursWithSeconds } from "@/lib/productivity";
+import { fmtISTTime } from "@/lib/ist";
+import {
+  EmptyState,
+  LiveDot,
+  RefreshIndicator,
+  SkeletonCard,
+} from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
-/*  Small UI primitives                                               */
+/*  Small UI primitives (local, not exported)                          */
 /* ------------------------------------------------------------------ */
 const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
   <div
-    className={`rounded-2xl transition-all duration-300 hover:scale-[1.012] hover:shadow-2xl hover:-translate-y-[1px] ${className}`}
+    className={cn("rounded-2xl transition-all duration-300 hover:scale-[1.012] hover:shadow-2xl hover:-translate-y-[1px]", className)}
     style={{
       background: `linear-gradient(135deg, ${t.bgElev}ee, ${t.bgElev}bb)`,
       border: `1px solid ${t.border}`,
       backdropFilter: "blur(16px)",
       boxShadow: t.shadow,
-      ...style
+      ...style,
     }}
     {...p}
   >
@@ -50,9 +60,13 @@ const Card = ({ t, children, className = "", style = {}, ...p }: any) => (
 const Ring = ({ value, size = 64, stroke = 6, t, label }: any) => {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
-  const col = value >= 80 ? t.success : value >= 60 ? t.info : value >= 40 ? t.warn : t.danger;
+  const col =
+    value >= 80 ? t.success : value >= 60 ? t.info : value >= 40 ? t.warn : t.danger;
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+    <div
+      className="relative inline-flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <svg width={size} height={size} className="-rotate-90 filter drop-shadow-[0_0_6px_rgba(124,107,240,0.15)]">
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={t.bgElev2} strokeWidth={stroke} />
         <circle
@@ -66,26 +80,42 @@ const Ring = ({ value, size = 64, stroke = 6, t, label }: any) => {
         <span className="font-mono font-bold leading-none" style={{ color: t.text, fontSize: size * 0.26 }}>
           {value}%
         </span>
-        {label && <span className="mt-0.5 text-[8px] uppercase tracking-wider font-semibold" style={{ color: t.textFaint }}>{label}</span>}
+        {label && (
+          <span className="mt-0.5 text-[8px] uppercase tracking-wider font-semibold" style={{ color: t.textFaint }}>
+            {label}
+          </span>
+        )}
       </div>
     </div>
   );
 };
 
-const StatCard = ({ t, icon: Icon, label, value, accent, delta, mono = true, live }: any) => (
+const StatCard = ({ t, icon: Icon, label, value, accent, delta, mono = true, live, sub }: any) => (
   <Card t={t} className="p-4 relative overflow-hidden">
     {live && (
-      <div className="absolute top-0 right-0 h-1.5 w-1.5 rounded-full m-3 flex">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+      <div className="absolute top-0 right-0 m-3">
+        <LiveDot />
       </div>
     )}
     <div className="flex items-start justify-between">
-      <div>
+      <div className="min-w-0 flex-1 pr-2">
         <p className="text-xs font-medium" style={{ color: t.textMuted }}>{label}</p>
-        <p className={`mt-2 text-2xl font-semibold ${mono ? "font-mono" : ""} ${live ? "text-emerald-400 font-bold animate-pulse" : ""}`} style={{ color: live ? undefined : t.text }}>{value}</p>
+        <p
+          className={cn(
+            "mt-2 text-2xl font-semibold truncate",
+            mono && "font-mono",
+            live && "text-emerald-400 font-bold"
+          )}
+          style={{ color: live ? undefined : t.text }}
+        >
+          {value}
+        </p>
+        {sub && <p className="mt-0.5 text-[11px]" style={{ color: t.textFaint }}>{sub}</p>}
       </div>
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: accent + "22", color: accent }}>
+      <div
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+        style={{ background: accent + "22", color: accent }}
+      >
         <Icon size={18} />
       </div>
     </div>
@@ -125,58 +155,17 @@ const SectionTitle = ({ t, children, sub }: any) => (
   </div>
 );
 
-const HoursAreaChart = ({ t, data, title, sub }: any) => (
-  <Card t={t} className="p-5">
-    <SectionTitle t={t} sub={sub}>{title}</SectionTitle>
-    <div style={{ height: 220 }} className="mt-3">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-          <defs>
-            <linearGradient id="hrs" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={t.brand} stopOpacity={0.35} />
-              <stop offset="100%" stopColor={t.brand} stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke={t.borderSoft} vertical={false} />
-          <XAxis dataKey="day" tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
-          <Tooltip content={<ChartTip t={t} unit="h" />} />
-          <Area type="monotone" dataKey="hours" name="hours" stroke={t.brand} strokeWidth={2.5} fill="url(#hrs)" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  </Card>
-);
-
-const ProductivityLine = ({ t, data, title, sub }: any) => (
-  <Card t={t} className="p-5">
-    <SectionTitle t={t} sub={sub}>{title}</SectionTitle>
-    <div style={{ height: 220 }} className="mt-3">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke={t.borderSoft} vertical={false} />
-          <XAxis dataKey="week" tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} />
-          <YAxis domain={[40, 100]} tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
-          <Tooltip content={<ChartTip t={t} />} />
-          <Line type="monotone" dataKey="score" name="score" stroke={t.success} strokeWidth={2.5} dot={{ r: 3, fill: t.success }} activeDot={{ r: 5 }} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  </Card>
-);
-
-const STATUS_META: Record<string, { color: string; soft: string }> = {
-  PENDING: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
-  IN_PROGRESS: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
-  COMPLETED: { color: "#34D399", soft: "rgba(52,211,153,0.14)" },
-  BLOCKED: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
-  LOW: { color: "#99A2B5", soft: "rgba(153,162,181,0.14)" },
-  MEDIUM: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
-  HIGH: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
-  CRITICAL: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
-};
-
 const Badge = ({ t, status, label }: any) => {
+  const STATUS_META: Record<string, { color: string; soft: string }> = {
+    PENDING: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
+    IN_PROGRESS: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
+    COMPLETED: { color: "#34D399", soft: "rgba(52,211,153,0.14)" },
+    BLOCKED: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
+    LOW: { color: "#99A2B5", soft: "rgba(153,162,181,0.14)" },
+    MEDIUM: { color: "#38BDF8", soft: "rgba(56,189,248,0.14)" },
+    HIGH: { color: "#FBBF24", soft: "rgba(251,191,36,0.14)" },
+    CRITICAL: { color: "#FB7185", soft: "rgba(251,113,133,0.14)" },
+  };
   const m = STATUS_META[status] || { color: t.textMuted, soft: t.bgElev2 };
   const displayLabel = label || status.replace("_", " ").toLowerCase();
   return (
@@ -190,6 +179,9 @@ const Badge = ({ t, status, label }: any) => {
   );
 };
 
+/* ------------------------------------------------------------------ */
+/*  Props                                                              */
+/* ------------------------------------------------------------------ */
 interface DashboardClientProps {
   todayRecord: {
     clockIn: string | null;
@@ -206,22 +198,19 @@ interface DashboardClientProps {
     estimatedTime: number;
     actualTime: number;
   }>;
-  attendanceHistory: Array<{
-    day: string;
-    hours: number;
-  }>;
+  attendanceHistory: Array<{ day: string; hours: number }>;
   metrics: {
     taskRate: number;
     attendanceRate: number;
     hoursCompliance: number;
     avgHours: number;
   };
-  seriesWeekly: Array<{
-    week: string;
-    score: number;
-  }>;
+  seriesWeekly: Array<{ week: string; score: number }>;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Main component                                                     */
+/* ------------------------------------------------------------------ */
 export default function DashboardClient({
   todayRecord,
   tasks,
@@ -238,25 +227,37 @@ export default function DashboardClient({
   const [quickTitle, setQuickTitle] = useState("");
   const [addingTask, setAddingTask] = useState(false);
   const [localTasks, setLocalTasks] = useState(tasks);
+  const [lastRefreshed, setLastRefreshed] = useState(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    setClockRecord(todayRecord);
-  }, [todayRecord]);
-
-  useEffect(() => {
-    setLocalTasks(tasks);
-  }, [tasks]);
+  useEffect(() => { setClockRecord(todayRecord); }, [todayRecord]);
+  useEffect(() => { setLocalTasks(tasks); }, [tasks]);
+  useEffect(() => { setLastRefreshed(new Date()); }, [todayRecord, tasks, metrics]);
 
   const clockIn = clockRecord?.clockIn ? new Date(clockRecord.clockIn) : null;
   const clockOut = clockRecord?.clockOut ? new Date(clockRecord.clockOut) : null;
 
-  // Running live clock if clocked-in and not clocked-out yet
+  // Live seconds ticker when clocked in
   useEffect(() => {
     if (clockIn && !clockOut) {
       const interval = setInterval(() => setNow(new Date()), 1000);
       return () => clearInterval(interval);
     }
   }, [clockIn, clockOut]);
+
+  // Auto-refresh every 60 seconds from server
+  useEffect(() => {
+    const id = setInterval(() => {
+      router.refresh();
+    }, 60_000);
+    return () => clearInterval(id);
+  }, [router]);
+
+  const manualRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    router.refresh();
+    setTimeout(() => setIsRefreshing(false), 800);
+  }, [router]);
 
   const liveHours = useMemo(() => {
     if (!clockIn) return 0;
@@ -279,10 +280,11 @@ export default function DashboardClient({
           clockOut: data.record.clockOut || null,
           totalHours: data.record.totalHours,
         });
+        setLastRefreshed(new Date());
         router.refresh();
       }
     } catch (err) {
-      console.error("Failed to clock in/out", err);
+      console.error("Clock action failed", err);
     } finally {
       setLoadingClock(false);
     }
@@ -305,7 +307,7 @@ export default function DashboardClient({
         router.refresh();
       }
     } catch (err) {
-      console.error("Failed to add task", err);
+      console.error("Add task failed", err);
     } finally {
       setAddingTask(false);
     }
@@ -313,17 +315,12 @@ export default function DashboardClient({
 
   const handleCycleStatus = async (task: any) => {
     const STATUSES = ["PENDING", "IN_PROGRESS", "COMPLETED", "BLOCKED"];
-    const nextIndex = (STATUSES.indexOf(task.status) + 1) % STATUSES.length;
-    const nextStatus = STATUSES[nextIndex];
-
+    const nextStatus = STATUSES[(STATUSES.indexOf(task.status) + 1) % STATUSES.length];
     try {
       const res = await fetch("/api/tasks", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: task.id,
-          status: nextStatus,
-        }),
+        body: JSON.stringify({ id: task.id, status: nextStatus }),
       });
       const data = await res.json();
       if (res.ok && data.task) {
@@ -333,49 +330,52 @@ export default function DashboardClient({
         router.refresh();
       }
     } catch (err) {
-      console.error("Failed to cycle task status", err);
+      console.error("Cycle status failed", err);
     }
   };
 
   const completed = localTasks.filter((x) => x.status === "COMPLETED").length;
   const pending = localTasks.filter((x) => x.status !== "COMPLETED").length;
+  const score = productivityScore(metrics.taskRate, metrics.attendanceRate, metrics.hoursCompliance);
 
-  const score = productivityScore(
-    metrics.taskRate,
-    metrics.attendanceRate,
-    metrics.hoursCompliance
-  );
+  // IST-formatted clock times
+  const formattedClockIn = clockIn ? fmtISTTime(clockIn) : "—";
+  const formattedClockOut = clockOut ? fmtISTTime(clockOut) : "—";
 
-
-
-  const formattedClockIn = clockIn
-    ? clockIn.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
-    : "—";
-  const formattedClockOut = clockOut
-    ? clockOut.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
-    : "—";
+  const hasAttendanceData = attendanceHistory.some((d) => d.hours > 0);
+  const hasWeeklyData = seriesWeekly.some((d) => d.score > 0);
 
   return (
-    <div className="space-y-5">
-      {/* Quick Attendance Control Banner */}
-      <Card t={t} className="p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 border border-white/5 shadow-2xl bg-gradient-to-r from-[#1B2130]/90 via-[#131722]/80 to-[#1B2130]/90">
+    <div className="space-y-5 animate-fade-in">
+      {/* Attendance Banner */}
+      <Card
+        t={t}
+        className="p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 border border-white/5 shadow-2xl"
+        style={{
+          background: `linear-gradient(135deg, ${t.bgElev}ee, ${t.bgElev}bb)`,
+        }}
+      >
         <div className="absolute inset-0 bg-gradient-to-r from-[#7C6BF0]/8 via-transparent to-[#A78BFA]/8 pointer-events-none" />
         <div className="text-center md:text-left z-10">
           <h2 className="text-lg font-bold tracking-tight" style={{ color: t.text }}>
-            {!clockIn ? "Ready to start your workday?" : clockOut ? "Workday complete!" : "You are currently clocked in"}
+            {!clockIn
+              ? "Ready to start your workday?"
+              : clockOut
+              ? "Workday complete!"
+              : "You are currently clocked in"}
           </h2>
           <p className="text-xs mt-1" style={{ color: t.textMuted }}>
-            {!clockIn 
-              ? "Clock in now to start tracking your working hours and tasks." 
-              : clockOut 
-              ? `Great job today! Total hours logged: ${formatHours(clockRecord?.totalHours || 0)}` 
+            {!clockIn
+              ? "Clock in now to start tracking your working hours and tasks."
+              : clockOut
+              ? `Great job today! Total hours logged: ${formatHours(clockRecord?.totalHours || 0)}`
               : (
                 <span className="inline-flex items-center gap-1.5 select-none">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <LiveDot color="#34D399" />
+                  Work session running. Live timer:{" "}
+                  <span className="font-mono font-bold text-emerald-400 ml-1">
+                    {formatHoursWithSeconds(liveHours)}
                   </span>
-                  Work session running. Live timer: <span className="font-mono font-bold text-emerald-400 ml-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">{formatHoursWithSeconds(liveHours)}</span>
                 </span>
               )}
           </p>
@@ -385,38 +385,100 @@ export default function DashboardClient({
             <button
               onClick={() => handleClockAction("clock-in")}
               disabled={loadingClock}
-              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] shadow-lg shadow-[#7C6BF0]/20 hover:brightness-110 active:scale-95 transition-all text-sm hover:shadow-[#7C6BF0]/40"
+              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] shadow-lg shadow-[#7C6BF0]/20 hover:brightness-110 active:scale-95 transition-all text-sm disabled:opacity-60"
             >
-              {loadingClock ? "Clocking In..." : "Clock In"}
+              {loadingClock ? "Clocking In…" : "Clock In"}
             </button>
           ) : !clockOut ? (
             <button
               onClick={() => handleClockAction("clock-out")}
               disabled={loadingClock}
-              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FB7185] to-[#FB526B] shadow-lg shadow-[#FB7185]/20 hover:brightness-110 active:scale-95 transition-all text-sm hover:shadow-[#FB7185]/40"
+              className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FB7185] to-[#FB526B] shadow-lg shadow-[#FB7185]/20 hover:brightness-110 active:scale-95 transition-all text-sm disabled:opacity-60"
             >
-              {loadingClock ? "Clocking Out..." : "Clock Out"}
+              {loadingClock ? "Clocking Out…" : "Clock Out"}
             </button>
           ) : (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: t.successSoft, color: t.success }}>
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
+              style={{ background: t.successSoft, color: t.success }}
+            >
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: t.success }} />
-              Completed
+              Day Complete
             </span>
           )}
         </div>
       </Card>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard t={t} icon={Play} label="Clocked in" value={formattedClockIn} accent={t.success} />
-        <StatCard t={t} icon={Square} label="Clocked out" value={formattedClockOut} accent={t.danger} />
-        <StatCard t={t} icon={Timer} label="Hours today" value={formatHoursWithSeconds(liveHours)} accent={t.brand} live={clockIn && !clockOut} />
-        <StatCard t={t} icon={Target} label="Productivity" value={`${score}%`} accent={t.info} delta={4} />
+      {/* Stat row + manual refresh */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <RefreshIndicator t={t} lastUpdated={lastRefreshed} />
+        <button
+          onClick={manualRefresh}
+          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition hover:brightness-110 active:scale-95"
+          style={{ background: t.bgElev2, color: t.textMuted, border: `1px solid ${t.border}` }}
+        >
+          <RefreshCw size={12} className={isRefreshing ? "animate-spin" : ""} />
+          Refresh
+        </button>
       </div>
 
+      {/* Top 4 stat cards */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard
+          t={t} icon={Play} label="Clocked in" value={formattedClockIn}
+          accent={t.success} sub="IST"
+        />
+        <StatCard
+          t={t} icon={Square} label="Clocked out" value={formattedClockOut}
+          accent={t.danger} sub="IST"
+        />
+        <StatCard
+          t={t} icon={Timer} label="Hours today"
+          value={formatHoursWithSeconds(liveHours)}
+          accent={t.brand} live={!!(clockIn && !clockOut)}
+        />
+        <StatCard
+          t={t} icon={Target} label="Productivity"
+          value={`${score}%`} accent={t.info}
+        />
+      </div>
+
+      {/* Charts row */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <HoursAreaChart t={t} data={attendanceHistory} title="My working hours" sub="Last 14 days" />
+          <Card t={t} className="p-5">
+            <SectionTitle t={t} sub="Last 14 days (IST)">Working hours</SectionTitle>
+            {hasAttendanceData ? (
+              <div style={{ height: 220 }} className="mt-3">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={attendanceHistory} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="hrs" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={t.brand} stopOpacity={0.35} />
+                        <stop offset="100%" stopColor={t.brand} stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke={t.borderSoft} vertical={false} />
+                    <XAxis dataKey="day" tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
+                    <Tooltip content={<ChartTip t={t} unit="h" />} />
+                    <Area type="monotone" dataKey="hours" name="hours" stroke={t.brand} strokeWidth={2.5} fill="url(#hrs)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <EmptyState
+                t={t}
+                icon={CalendarDays}
+                title="No attendance data yet"
+                description="Clock in to start tracking your daily hours. Data will appear here once you have records."
+                className="mt-3 h-[220px]"
+              />
+            )}
+          </Card>
         </div>
+
+        {/* Score Ring */}
         <Card t={t} className="flex flex-col items-center justify-center p-5">
           <SectionTitle t={t} sub="Task rate · attendance · hours">Your score</SectionTitle>
           <div className="my-3">
@@ -437,20 +499,20 @@ export default function DashboardClient({
         </Card>
       </div>
 
+      {/* Secondary stat cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard t={t} icon={Check} label="Completed tasks" value={completed} accent={t.success} mono />
         <StatCard t={t} icon={ListTodo} label="Open tasks" value={pending} accent={t.warn} mono />
-        <StatCard t={t} icon={CalendarDays} label="Average hours" value={formatHours(metrics.avgHours)} accent={t.brand} />
+        <StatCard t={t} icon={CalendarDays} label="Avg hours/day" value={formatHours(metrics.avgHours)} accent={t.brand} />
         <StatCard t={t} icon={Activity} label="Task Rate" value={`${metrics.taskRate}%`} accent={t.info} />
       </div>
 
+      {/* Tasks + Trend chart */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <Card t={t} className="p-5 flex flex-col justify-between border border-[#232A3B]">
-            <div>
-              <SectionTitle t={t} sub="Tap status badge to cycle. Enter to add.">My Tasks Today</SectionTitle>
-            </div>
-            
+          <Card t={t} className="p-5 flex flex-col justify-between" style={{ border: `1px solid ${t.border}` }}>
+            <SectionTitle t={t} sub="Tap status badge to cycle · Enter to add">My Tasks</SectionTitle>
+
             <form onSubmit={handleQuickAdd} className="mt-4 flex gap-2">
               <input
                 type="text"
@@ -458,35 +520,46 @@ export default function DashboardClient({
                 onChange={(e) => setQuickTitle(e.target.value)}
                 placeholder="What are you working on next?"
                 disabled={addingTask}
-                className="flex-1 rounded-xl border border-[#232A3B] bg-[#1B2130] px-4 py-2.5 text-sm text-[#E7EAF0] placeholder-[#5C6781] outline-none focus:border-[#7C6BF0] transition"
-                style={{ border: `1px solid ${t.border}`, background: t.bgElev2, color: t.text }}
+                className="flex-1 rounded-xl px-4 py-2.5 text-sm placeholder-[#5C6781] outline-none transition"
+                style={{
+                  border: `1px solid ${t.border}`,
+                  background: t.bgElev2,
+                  color: t.text,
+                }}
               />
               <button
                 type="submit"
                 disabled={addingTask || !quickTitle.trim()}
                 className="rounded-xl px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#7C6BF0] to-[#8B7CF0] hover:brightness-110 active:scale-95 transition disabled:opacity-40"
               >
-                {addingTask ? "Adding..." : "Add"}
+                {addingTask ? "…" : "Add"}
               </button>
             </form>
 
             <div className="mt-4 space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
               {localTasks.length === 0 ? (
-                <div className="text-center py-8 text-xs" style={{ color: t.textFaint }}>
-                  No tasks tracked today. Use the input above to quickly list a task!
-                </div>
+                <EmptyState
+                  t={t}
+                  icon={ClipboardList}
+                  title="No tasks yet"
+                  description="Use the input above to quickly log what you're working on."
+                />
               ) : (
                 localTasks.slice(0, 5).map((task: any) => (
-                  <div key={task.id} className="flex items-center justify-between gap-3 p-3 rounded-xl hover:bg-black/5 transition" style={{ background: t.bgElev2, border: `1px solid ${t.border}` }}>
+                  <div
+                    key={task.id}
+                    className="flex items-center justify-between gap-3 p-3 rounded-xl transition"
+                    style={{ background: t.bgElev2, border: `1px solid ${t.border}` }}
+                  >
                     <div className="min-w-0">
                       <p className="text-sm font-semibold truncate" style={{ color: t.text }}>{task.title}</p>
                       <p className="text-[10px] mt-0.5" style={{ color: t.textFaint }}>
-                        {task.projectName ? `Project: ${task.projectName}` : "No Project"}
+                        {task.projectName ? `Project: ${task.projectName}` : "No project"}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       <Badge t={t} status={task.priority} />
-                      <button onClick={() => handleCycleStatus(task)} className="shrink-0">
+                      <button onClick={() => handleCycleStatus(task)}>
                         <Badge t={t} status={task.status} />
                       </button>
                     </div>
@@ -496,9 +569,36 @@ export default function DashboardClient({
             </div>
           </Card>
         </div>
-        <div>
-          <ProductivityLine t={t} data={seriesWeekly} title="Productivity trend" sub="Last 6 weeks" />
-        </div>
+
+        {/* Productivity trend */}
+        <Card t={t} className="p-5">
+          <SectionTitle t={t} sub="Last 6 weeks">Productivity trend</SectionTitle>
+          {hasWeeklyData ? (
+            <div style={{ height: 220 }} className="mt-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={seriesWeekly} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={t.borderSoft} vertical={false} />
+                  <XAxis dataKey="week" tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[0, 100]} tick={{ fill: t.textFaint, fontSize: 11 }} axisLine={false} tickLine={false} width={36} />
+                  <Tooltip content={<ChartTip t={t} />} />
+                  <Line
+                    type="monotone" dataKey="score" name="score"
+                    stroke={t.success} strokeWidth={2.5}
+                    dot={{ r: 3, fill: t.success }} activeDot={{ r: 5 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <EmptyState
+              t={t}
+              icon={TrendingUp}
+              title="No trend data yet"
+              description="Your weekly productivity score will appear here once you have attendance records."
+              className="mt-3 h-[220px]"
+            />
+          )}
+        </Card>
       </div>
     </div>
   );

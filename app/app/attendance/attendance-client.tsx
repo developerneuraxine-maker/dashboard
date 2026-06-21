@@ -136,6 +136,7 @@ export default function AttendanceClient({ todayRecord: initialToday, history }:
     return new Date(isoString).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
+      timeZone: "Asia/Kolkata",
     });
   };
 

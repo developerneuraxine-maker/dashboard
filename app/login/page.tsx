@@ -52,7 +52,7 @@ function LoginForm() {
           Sign in to WorkTrack <span className="text-[#A78BFA]">PRO</span>
         </h2>
         <p className="mt-2 text-center text-sm text-[#99A2B5]">
-          Or use your seeded credentials to get started
+          Track your team's productivity in real time
         </p>
       </div>
 
@@ -120,26 +120,6 @@ function LoginForm() {
         <Link href="/signup" className="font-semibold text-[#A78BFA] hover:underline">
           Sign Up
         </Link>
-      </div>
-
-      <div className="mt-6 rounded-2xl bg-[#1B2130]/50 p-4 border border-[#232A3B]/50">
-        <p className="text-xs font-bold text-[#E7EAF0] uppercase tracking-wider mb-2">Seeded Logins:</p>
-        <div className="space-y-2 text-xs text-[#99A2B5]">
-          <div>
-            <span className="font-semibold text-[#A78BFA]">Manager:</span>
-            <div className="flex gap-1 mt-1">
-              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">manager@worktrack.io</code>
-              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">hardik@123</code>
-            </div>
-          </div>
-          <div>
-            <span className="font-semibold text-[#A78BFA]">Employee:</span>
-            <div className="flex gap-1 mt-1">
-              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">hardiksedani95@gmail.com</code>
-              <code className="select-all bg-[#0B0E14] px-1.5 py-0.5 rounded text-[#E7EAF0]">password123</code>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

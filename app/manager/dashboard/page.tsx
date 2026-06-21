@@ -71,7 +71,7 @@ export default async function ManagerDashboardPage() {
     const avgHours =
       activeDays.length > 0
         ? activeDays.reduce((sum: number, a: any) => sum + a.totalHours, 0) / activeDays.length
-        : 8.0;
+        : 0; // no data → no fabricated compliance
     const hoursCompliance = Math.min(100, Math.round((avgHours / 8.0) * 100));
 
     const score = productivityScore(taskRate, attendanceRate, hoursCompliance);
@@ -96,8 +96,8 @@ export default async function ManagerDashboardPage() {
           ? "Working"
           : "Offline"
         : "Offline",
-      clockIn: todayRecord?.clockIn ? new Date(todayRecord.clockIn).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : null,
-      clockOut: todayRecord?.clockOut ? new Date(todayRecord.clockOut).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : null,
+      clockIn: todayRecord?.clockIn ? new Date(todayRecord.clockIn).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) : null,
+      clockOut: todayRecord?.clockOut ? new Date(todayRecord.clockOut).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }) : null,
       hours: todayRecord?.totalHours || 0,
       tasksCompleted: completedTasks,
       tasksInProgress: inProgressTasks,
@@ -142,7 +142,7 @@ export default async function ManagerDashboardPage() {
     });
     const avg = totalEmployees > 0 ? Math.round((totalHoursForDay / totalEmployees) * 10) / 10 : 0;
     const dateObj = new Date(dateStr);
-    const dayLabel = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const dayLabel = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "Asia/Kolkata" });
     return {
       day: dayLabel,
       hours: avg,

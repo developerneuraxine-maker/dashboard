@@ -89,7 +89,7 @@ export default async function EmployeeDashboardPage() {
           (sum: number, a: any) => sum + (a.totalHours ?? 0),
           0
         ) / nonZeroHoursDays.length
-      : 8.0; // fallback to 8
+      : 0; // no data → no fabricated compliance
   const hoursCompliance = Math.min(100, Math.round((avgHours / 8.0) * 100));
 
   // Compute 6-week weekly trend
@@ -159,7 +159,7 @@ export default async function EmployeeDashboardPage() {
         actualTime: t.actualTime || 0,
       }))}
       attendanceHistory={recentAttendanceHistory.map((a: any) => ({
-        day: new Date(a.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        day: new Date(a.date).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "Asia/Kolkata" }),
         hours: a.totalHours || 0,
       }))}
       metrics={{
