@@ -18,6 +18,19 @@ export function fmtISTDate(date: Date | string | null | undefined): string {
   }).format(d);
 }
 
+/** "08:45 PM" — no IST suffix, for use in narrow stat card values */
+export function fmtISTTimeShort(date: Date | string | null | undefined): string {
+  if (!date) return "—";
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return "—";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TZ,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(d);
+}
+
 /** "08:45 PM IST" */
 export function fmtISTTime(date: Date | string | null | undefined): string {
   if (!date) return "—";

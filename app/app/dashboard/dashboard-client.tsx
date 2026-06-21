@@ -29,7 +29,7 @@ import {
   Tooltip,
 } from "recharts";
 import { productivityScore, formatHours, formatHoursWithSeconds } from "@/lib/productivity";
-import { fmtISTTime } from "@/lib/ist";
+import { fmtISTTimeShort } from "@/lib/ist";
 import {
   EmptyState,
   LiveDot,
@@ -338,9 +338,9 @@ export default function DashboardClient({
   const pending = localTasks.filter((x) => x.status !== "COMPLETED").length;
   const score = productivityScore(metrics.taskRate, metrics.attendanceRate, metrics.hoursCompliance);
 
-  // IST-formatted clock times
-  const formattedClockIn = clockIn ? fmtISTTime(clockIn) : "—";
-  const formattedClockOut = clockOut ? fmtISTTime(clockOut) : "—";
+  // IST-formatted clock times — short form avoids truncation in narrow stat cards
+  const formattedClockIn = clockIn ? fmtISTTimeShort(clockIn) : "—";
+  const formattedClockOut = clockOut ? fmtISTTimeShort(clockOut) : "—";
 
   const hasAttendanceData = attendanceHistory.some((d) => d.hours > 0);
   const hasWeeklyData = seriesWeekly.some((d) => d.score > 0);
@@ -426,11 +426,11 @@ export default function DashboardClient({
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           t={t} icon={Play} label="Clocked in" value={formattedClockIn}
-          accent={t.success}
+          accent={t.success} mono={false} sub="IST"
         />
         <StatCard
           t={t} icon={Square} label="Clocked out" value={formattedClockOut}
-          accent={t.danger}
+          accent={t.danger} mono={false} sub="IST"
         />
         <StatCard
           t={t} icon={Timer} label="Hours today"
